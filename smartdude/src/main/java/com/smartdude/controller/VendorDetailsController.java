@@ -4,8 +4,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,8 +23,8 @@ public class VendorDetailsController {
 	 * @Autowired private VendorRepository vendorRepository;
 	 */
 	
-	@Autowired 
-	private PasswordEncoder passwordEncoder;
+//	@Autowired 
+	//private PasswordEncoder passwordEncoder;
 
 	@Autowired
 	private UserRepository userRepository;
@@ -59,13 +57,13 @@ public class VendorDetailsController {
 	  
 	  @GetMapping("/admin/getVendor/{vendorID}")
 	  public Vendor getVendorsByCode(@PathVariable Integer vendorID){
-		  return vendoRepository.findOne(vendorID);
+		  return vendoRepository.findByVendorid(vendorID);
 	  }
 	  
 	@PostMapping("/saveUser")
 	public User saveUser(@RequestBody User user) {
-		String password = passwordEncoder.encode(user.getPassword());
-		user.setPassword(password);
+	//	String password = passwordEncoder.encode(user.getPassword());
+		//user.setPassword(password);
 		 User userf = userRepository.save(user);
 		/*
 		 * List<Role> role = user.getRoles();
