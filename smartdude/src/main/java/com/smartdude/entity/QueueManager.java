@@ -1,9 +1,9 @@
 package com.smartdude.entity;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+import java.time.LocalDateTime;
 
-@Document(collection="queuemanager")
+import javax.persistence.Id;
+
 public class QueueManager {
 
 	@Id
@@ -14,6 +14,10 @@ public class QueueManager {
 	private String tempPassword;
 	
 	private String mobileNumber;
+	
+	private LocalDateTime createdTimeStamp;
+	
+	private Boolean activeStatus;
 	
 	
 }

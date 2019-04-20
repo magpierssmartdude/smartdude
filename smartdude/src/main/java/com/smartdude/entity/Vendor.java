@@ -1,128 +1,64 @@
 package com.smartdude.entity;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.List;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 import lombok.Data;
 
-@Document(collection="vendor")
 @Data
-public class Vendor {
+@Entity
+@Table(name="vendor")
+public class Vendor implements Serializable {
 
-	@Id
-	private String vendorCode;
-	
-	private String vendorName;
-	
-	private String emailId;
-	
-	private String phoneNumber;
-	
-	private String organizationType;
-	
-	private String organizationName;
-	
-	private LocalDateTime createdTimeStamp;
-	
-	private String password;
-	
-	private String activated;
-	
-	private List<VendorLocationDetail> vendorLocationDetails;
-	
-	public List<VendorLocationDetail> getVendorLocationDetails() {
-		return vendorLocationDetails;
-	}
+/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8877257344432213092L;
 
-	public void setVendorLocationDetails(List<VendorLocationDetail> vendorLocationDetails) {
-		this.vendorLocationDetails = vendorLocationDetails;
-	}
+@Id
+@GeneratedValue(strategy=GenerationType.IDENTITY)
+private Integer vendorid;
 
-	public String getActivated() {
-		return activated;
-	}
+public Integer getVendorid() {
+	return vendorid;
+}
 
-	public void setActivated(String activated) {
-		this.activated = activated;
-	}
+public void setVendorid(Integer vendorid) {
+	this.vendorid = vendorid;
+}
 
-	public String getVendorCode() {
-		return vendorCode;
-	}
+public String getVendorcode() {
+	return vendorcode;
+}
 
-	public void setVendorCode(String vendorCode) {
-		this.vendorCode = vendorCode;
-	}
+public void setVendorcode(String vendorcode) {
+	this.vendorcode = vendorcode;
+}
 
-	public String getVendorName() {
-		return vendorName;
-	}
+public String getVendorname() {
+	return vendorname;
+}
 
-	public void setVendorName(String vendorName) {
-		this.vendorName = vendorName;
-	}
+public void setVendorname(String vendorname) {
+	this.vendorname = vendorname;
+}
 
-	public String getEmailId() {
-		return emailId;
-	}
+public static long getSerialversionuid() {
+	return serialVersionUID;
+}
 
-	public void setEmailId(String emailId) {
-		this.emailId = emailId;
-	}
+@Column(name="vendorcode")
+private String vendorcode;
 
-	public String getPhoneNumber() {
-		return phoneNumber;
-	}
+@Column(name="vendorname")
+private String vendorname;
 
-	public void setPhoneNumber(String phoneNumber) {
-		this.phoneNumber = phoneNumber;
-	}
 
-	public String getOrganizationType() {
-		return organizationType;
-	}
-
-	public void setOrganizationType(String organizationType) {
-		this.organizationType = organizationType;
-	}
-
-	public String getOrganizationName() {
-		return organizationName;
-	}
-
-	public void setOrganizationName(String organizationName) {
-		this.organizationName = organizationName;
-	}
-
-	public LocalDateTime getCreatedTimeStamp() {
-		return createdTimeStamp;
-	}
-
-	public void setCreatedTimeStamp(LocalDateTime createdTimeStamp) {
-		this.createdTimeStamp = createdTimeStamp;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public LocalDateTime getAuthendicatedTime() {
-		return authendicatedTime;
-	}
-
-	public void setAuthendicatedTime(LocalDateTime authendicatedTime) {
-		this.authendicatedTime = authendicatedTime;
-	}
-
-	private LocalDateTime authendicatedTime;
-	
-	
-	
 }

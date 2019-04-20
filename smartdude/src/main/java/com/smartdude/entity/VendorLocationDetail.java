@@ -1,5 +1,8 @@
 package com.smartdude.entity;
 
+import java.time.LocalDateTime;
+
+
 public class VendorLocationDetail {
 
 	private String locationID;
@@ -17,6 +20,8 @@ public class VendorLocationDetail {
 	private String block;
 	
 	private boolean activeStatus;
+	
+	private LocalDateTime createdTimeStamp;
 
 	public String getLocationID() {
 		return locationID;
