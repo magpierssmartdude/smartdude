@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -86,6 +87,18 @@ public class VendorDetailsController {
 	public Locationdetail saveLocation(@RequestBody Locationdetail locationDetail) {
 		
 		return locationdetailRepository.save(locationDetail);
+	}
+	@PutMapping("/vendor/updateLocation/{locationID}")
+	public Locationdetail updateLocation(@RequestBody Locationdetail locationDetail,@PathVariable("locationID") Integer locationID) {
+		locationDetail.setLocationid(locationID);
+		return locationdetailRepository.save(locationDetail);
+	}
+	
+	@DeleteMapping("/vendor/deleteLocation/{locationID}")
+	public void deleteLocation(@PathVariable("locationID") Integer locationID) {
+
+		locationdetailRepository.deleteById(locationID);
+
 	}
 	
 	@GetMapping("/smartdude/getUser")

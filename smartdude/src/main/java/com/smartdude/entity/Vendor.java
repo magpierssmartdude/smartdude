@@ -50,6 +50,9 @@ public class Vendor implements Serializable {
 	private LocalDateTime createdtimestamp;
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "vendor")
 	private List<Locationdetail> locationdetails;
+	
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "vendor")
+	private List<QueueManager> queuemanagers;
 
 	public LocalDateTime getAuthendicatedtime() {
 		return authendicatedtime;
