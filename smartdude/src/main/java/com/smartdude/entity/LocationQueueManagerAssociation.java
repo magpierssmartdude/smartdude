@@ -13,7 +13,7 @@ public class LocationQueueManagerAssociation {
 	
 	private QueueManager queueManager;
 	
-	private VendorLocationDetail vendorLocationDetail;
+//	private VendorLocationDetail vendorLocationDetail;
 	
 	private LocalDateTime createdTimeStamp;
 	

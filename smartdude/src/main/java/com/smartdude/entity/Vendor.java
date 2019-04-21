@@ -1,13 +1,16 @@
 package com.smartdude.entity;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import lombok.Data;
@@ -45,6 +48,8 @@ public class Vendor implements Serializable {
 	private String phonenumber;
 	private LocalDateTime authendicatedtime;
 	private LocalDateTime createdtimestamp;
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "vendor")
+	private List<Locationdetail> locationdetails;
 
 	public LocalDateTime getAuthendicatedtime() {
 		return authendicatedtime;
@@ -56,6 +61,16 @@ public class Vendor implements Serializable {
 
 	public LocalDateTime getCreatedtimestamp() {
 		return createdtimestamp;
+	}
+
+	
+
+	public List<Locationdetail> getLocationdetails() {
+		return locationdetails;
+	}
+
+	public void setLocationdetails(List<Locationdetail> locationdetails) {
+		this.locationdetails = locationdetails;
 	}
 
 	public void setCreatedtimestamp(LocalDateTime createdtimestamp) {
