@@ -4,6 +4,9 @@ import java.time.LocalDateTime;
 
 import javax.persistence.Id;
 
+import lombok.Data;
+
+@Data
 public class LocationQueueManagerAssociation {
 
 	@Id
@@ -12,8 +15,6 @@ public class LocationQueueManagerAssociation {
 	private String activeStatus;
 	
 	private QueueManager queueManager;
-	
-//	private VendorLocationDetail vendorLocationDetail;
 	
 	private LocalDateTime createdTimeStamp;
 	

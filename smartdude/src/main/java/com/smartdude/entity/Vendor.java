@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -13,118 +14,67 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Entity
 @Table(name = "vendor")
+@AllArgsConstructor
+@NoArgsConstructor
 public class Vendor implements Serializable {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 4088514319132260545L;
+
+	private static final long serialVersionUID = -8877257344432213092L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Integer vendorid;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@ApiModelProperty(notes = "Vendor Unique ID", required = true)
+	@Column(name = "vendor_id")
+	private Integer vendorId;
 
-	public Integer getVendorid() {
-		return vendorid;
-	}
+	@ApiModelProperty(notes = "Vendor Code", required = true)
+	@Column(name = "vendor_code")
+	private String vendorCode;
 
-	public void setVendorid(Integer vendorid) {
-		this.vendorid = vendorid;
-	}
+	@ApiModelProperty(notes = "Vendor Name")
+	@Column(name = "vendor_name")
+	private String vendorName;
+	
+	@ApiModelProperty(notes = "Vendor Organizantion Type")
+	@Column(name = "organization_type")
+	private String organizationType;
+	
+	@ApiModelProperty(notes = "Vendor Authenticated Time", required = true)
+	@Column(name = "authendicated_time")
+	private LocalDateTime authendicatedTime;
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-
-	private String vendorcode;
-	private String vendorname;
-	private String organizationtype;
-	private String organizationname;
+	@ApiModelProperty(notes = "Vendor Organizantion Name")
+	@Column(name = "organization_name")
+	private String organizationName;
+	
+	@ApiModelProperty(notes = "Vendor Password")
+	@Column(name = "password")
 	private String password;
-	private String phonenumber;
-	private LocalDateTime authendicatedtime;
-	private LocalDateTime createdtimestamp;
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "vendor")
-	private List<Locationdetail> locationdetails;
+	
+	@ApiModelProperty(notes = "Vendor Hand Phone")
+	@Column(name = "phone_number")
+	private String phoneNumber;
+	
+	@ApiModelProperty(notes = "Vendor Created TIme Stamp")
+	@Column(name = "created_timestmap")
+	private LocalDateTime createdTimeStamp;
+	
+	@ApiModelProperty(notes = "Status Of The Vendor")
+	@Column(name = "status")
+	private Boolean status;
 	
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "vendor")
+	@ApiModelProperty(notes = "Vendor Location Details")
+	private List<LocationDetail> locationdetails;
+	
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "vendor")
+	@ApiModelProperty(notes = "Vendor Queue Details")
 	private List<QueueManager> queuemanagers;
-
-	public LocalDateTime getAuthendicatedtime() {
-		return authendicatedtime;
-	}
-
-	public void setAuthendicatedtime(LocalDateTime authendicatedtime) {
-		this.authendicatedtime = authendicatedtime;
-	}
-
-	public LocalDateTime getCreatedtimestamp() {
-		return createdtimestamp;
-	}
-
-	
-
-	public List<Locationdetail> getLocationdetails() {
-		return locationdetails;
-	}
-
-	public void setLocationdetails(List<Locationdetail> locationdetails) {
-		this.locationdetails = locationdetails;
-	}
-
-	public void setCreatedtimestamp(LocalDateTime createdtimestamp) {
-		this.createdtimestamp = createdtimestamp;
-	}
-
-	public String getVendorcode() {
-		return vendorcode;
-	}
-
-	public void setVendorcode(String vendorcode) {
-		this.vendorcode = vendorcode;
-	}
-
-	public String getVendorname() {
-		return vendorname;
-	}
-
-	public void setVendorname(String vendorname) {
-		this.vendorname = vendorname;
-	}
-
-	public String getOrganizationtype() {
-		return organizationtype;
-	}
-
-	public void setOrganizationtype(String organizationtype) {
-		this.organizationtype = organizationtype;
-	}
-
-	public String getOrganizationname() {
-		return organizationname;
-	}
-
-	public void setOrganizationname(String organizationname) {
-		this.organizationname = organizationname;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public String getPhonenumber() {
-		return phonenumber;
-	}
-
-	public void setPhonenumber(String phonenumber) {
-		this.phonenumber = phonenumber;
-	}
 }

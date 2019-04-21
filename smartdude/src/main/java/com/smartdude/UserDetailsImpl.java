@@ -11,7 +11,9 @@ import com.smartdude.entity.User;
 
 public class UserDetailsImpl extends User implements UserDetails {
 
-    public UserDetailsImpl(User user) {
+	private static final long serialVersionUID = 1L;
+
+	public UserDetailsImpl(User user) {
         super(user);
     }
 
@@ -19,7 +21,7 @@ public class UserDetailsImpl extends User implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return getRoles()
                 .stream()
-                .map(role-> new SimpleGrantedAuthority("ROLE_"+role.getRole().toUpperCase()))
+                .map(role-> new SimpleGrantedAuthority("ROLE_"+role.getRoleCode().toUpperCase()))
                 .collect(Collectors.toList());
     }
 

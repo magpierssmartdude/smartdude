@@ -3,6 +3,7 @@ package com.smartdude.entity;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -15,99 +16,49 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+
 @Entity
-@Table(name="queuemanager")
+@Data
+@Table(name="queue_manager")
 public class QueueManager implements Serializable{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 8204683531454364262L;
 
-	public Integer getQmanagerid() {
-		return qmanagerid;
-	}
-
-	public void setQmanagerid(Integer qmanagerid) {
-		this.qmanagerid = qmanagerid;
-	}
-
-	public LocalDateTime getCreatedtimestamp() {
-		return createdtimestamp;
-	}
-
-	public void setCreatedtimestamp(LocalDateTime createdtimestamp) {
-		this.createdtimestamp = createdtimestamp;
-	}
-
-	public LocalDateTime getUpdatedtimestamp() {
-		return updatedtimestamp;
-	}
-
-	public void setUpdatedtimestamp(LocalDateTime updatedtimestamp) {
-		this.updatedtimestamp = updatedtimestamp;
-	}
-
 	@Id
+	@ApiModelProperty(notes = "Queue Manager Unique ID", required = true)
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Integer qmanagerid;
-	private String qmanagername;
-	private String qmanagerphonenumber;
-	private String qmanageremailid;
-	private String qmanagerpassword;
+	@Column(name = "queue_manager_id")
+	private Integer queueManagerId;
+	
+	@ApiModelProperty(notes = "Queue Manager Name")
+	@Column(name = "queue_manager_name")
+	private String queueManagerName;
+	
+	@ApiModelProperty(notes = "Queue Manager Hand Phone")
+	@Column(name = "queue_manager_phone_number")
+	private String qManagerPhoneNumber;
+	
+	@ApiModelProperty(notes = "Queue Manager Email ID")
+	@Column(name = "queue_manager_email_id")
+	private String qManagerEmailId;
+	
+	@ApiModelProperty(notes = "Queue Manager Password")
+	@Column(name = "queue_manager_password")
+	private String qManagerPassword;
 
+	@ApiModelProperty(notes = "Queue Manager Created TimeStamp")
+	@Column(name = "queue_manager_create_timestamp")
 	private LocalDateTime createdtimestamp;
+	
+	@ApiModelProperty(notes = "Queue Manager Last Updated TimeStamp")
+	@Column(name = "queue_manager_update_timestamp")
 	private LocalDateTime updatedtimestamp;
 	
 	@JsonProperty(access = Access.WRITE_ONLY)
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "vendorid", nullable = false)
+	@ApiModelProperty(notes = "Vendor Unique ID", required = true)
+	@JoinColumn(name = "vendor_id", nullable = false)
 	private Vendor vendor;
-	
-
-	public Vendor getVendor() {
-		return vendor;
-	}
-
-	public void setVendor(Vendor vendor) {
-		this.vendor = vendor;
-	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-
-	public String getQmanagername() {
-		return qmanagername;
-	}
-
-	public void setQmanagername(String qmanagername) {
-		this.qmanagername = qmanagername;
-	}
-
-	public String getQmanagerphonenumber() {
-		return qmanagerphonenumber;
-	}
-
-	public void setQmanagerphonenumber(String qmanagerphonenumber) {
-		this.qmanagerphonenumber = qmanagerphonenumber;
-	}
-
-	public String getQmanageremailid() {
-		return qmanageremailid;
-	}
-
-	public void setQmanageremailid(String qmanageremailid) {
-		this.qmanageremailid = qmanageremailid;
-	}
-
-	public String getQmanagerpassword() {
-		return qmanagerpassword;
-	}
-
-	public void setQmanagerpassword(String qmanagerpassword) {
-		this.qmanagerpassword = qmanagerpassword;
-	}
-
- 
 }

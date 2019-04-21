@@ -8,8 +8,7 @@ import com.smartdude.entity.Vendor;
 
 @Repository
 public interface VendorRepository extends JpaRepository<Vendor, String> {
+	
+	public Vendor findByVendorId(@Param("vendorid")Integer vendorId);
 
-	public Vendor findByVendorid(@Param("vendorid")Integer vendorID);
-
-	//Vendor findBVendorid(Integer vendorID);
 }

@@ -1,11 +1,8 @@
 package com.smartdude.controller;
 
-import java.time.LocalDateTime;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,109 +10,66 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.smartdude.entity.Locationdetail;
-import com.smartdude.entity.User;
+import com.smartdude.dto.VendorDTO;
+import com.smartdude.entity.LocationDetail;
 import com.smartdude.entity.Vendor;
-import com.smartdude.repository.LocationdetailRepository;
-import com.smartdude.repository.UserRepository;
-import com.smartdude.repository.VendorRepository;
+import com.smartdude.entity.exception.EntityNotFoundException;
+import com.smartdude.entity.exception.EntitySaveException;
+import com.smartdude.service.LocationDetailService;
+import com.smartdude.service.VendorDetailsService;
+
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 @RestController
 public class VendorDetailsController {
-	
-	/*
-	 * @Autowired private VendorRepository vendorRepository;
-	 */
-	
-	@Autowired 
-	private PasswordEncoder passwordEncoder;
 
 	@Autowired
-	private UserRepository userRepository;
-	
-	@Autowired
-	private VendorRepository vendoRepository;
-	
-	@Autowired
-	private LocationdetailRepository locationdetailRepository;
-	
-	/*
-	 * @Autowired private RoleRepository roleRepo;
-	 */
-	
-	@GetMapping("/smartdude/getAllVendors")
-	public List<Vendor> getVEndorValues() {
-		 System.out.println("It is here");
-		 return  vendoRepository.findAll();
-		
-	}
-	
-	@PostMapping("/smartdude/signup")
-	public Vendor vendorSignUp(@RequestBody Vendor vendor) {
+	private VendorDetailsService vendorDetailsService;
 
-		vendor.setCreatedtimestamp(LocalDateTime.now());
-		return vendoRepository.save(vendor);
+	@Autowired
+	private LocationDetailService locationDetailsService;
+
+	@ApiOperation(value = "To Save Vendor Details", response = Vendor.class, nickname = "Vendor SignUp")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK", response = Vendor.class),
+			@ApiResponse(code = 500, message = "ENS-> Error While Saving Vendor Details", response = com.smartdude.entity.exception.Error.class) })
+	@PostMapping(value = "/smartdude/signup", consumes = "application/json", produces = "application/json")
+	public ResponseEntity<Vendor> vendorSignUp(
+			@ApiParam(value = "Vendor details like Vendor Code & Vendor Name", required = true, name = "VendorDTO") @RequestBody VendorDTO vendorDTO)
+			throws EntitySaveException {
+		Vendor vendor = vendorDetailsService.vendorSignUp(vendorDTO);
+		return new ResponseEntity<>(vendor, HttpStatus.OK);
 	}
-	  
-	  @PutMapping("/admin/updateVendorStatus")
-	  public Vendor activteStatus(@RequestBody Vendor vendor) {
-		  vendor.setAuthendicatedtime(LocalDateTime.now());
-		  return vendoRepository.save(vendor);  
-	  }
-	  
-	/*
-	 * @GetMapping("/admin/getAllVendors") public List<Vendor> getVendors(){
-	 * 
-	 * }
-	 */
-	  
-	  @GetMapping("/admin/getVendor/{vendorID}")
-	  public Vendor getVendorsByCode(@PathVariable Integer vendorID){
-		  return vendoRepository.findByVendorid(vendorID);
-	  }
-	  
-	@PostMapping("/saveUser")
-	public User saveUser(@RequestBody User user) {
-	String password = passwordEncoder.encode(user.getPassword());
-		user.setPassword(password);
-		 User userf = userRepository.save(user);
-		 return userf;
-		 
+
+	@ApiOperation(value = "To Update Vendor Authenticating Details With Active Status Changed", response = Vendor.class, nickname = "Vendor Authentication Update")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK", response = Vendor.class),
+			@ApiResponse(code = 500, message = "ENS -> Error While Saving Vendor Details", response = com.smartdude.entity.exception.Error.class) })
+	@PutMapping("/admin/updateVendorStatus")
+	public ResponseEntity<Vendor> activteStatus(
+			@ApiParam(value = "Vendor Details With Updated Active Status", required = true, name = "VendorDTO") @RequestBody VendorDTO vendorDTO)
+			throws EntitySaveException {
+		Vendor vendor = vendorDetailsService.updateActiveStatus(vendorDTO);
+		return new ResponseEntity<>(vendor, HttpStatus.OK);
 	}
-	
+
+	@ApiOperation(value = "To Get Vendor Details With Their Code", response = Vendor.class, nickname = "Vendor Detail")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK", response = Vendor.class),
+			@ApiResponse(code = 404, message = "ENF -> Vendor Details Not Found For the Given Vendor ID", response = com.smartdude.entity.exception.Error.class) })
+	@GetMapping("/admin/getVendor/{vendorId}")
+	public ResponseEntity<Vendor> getVendorsByCode(
+			@ApiParam(value = "Vendor's Unique Code", required = true, allowMultiple = false, name = "vendorId") @PathVariable Integer vendorId)
+			throws EntityNotFoundException {
+		Vendor vendor = vendorDetailsService.findByVendorid(vendorId);
+		return new ResponseEntity<>(vendor, HttpStatus.OK);
+	}
+
+	@ApiOperation(value = "To Save Vendor Details", response = Vendor.class, nickname = "Vendor SignUp")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK", response = Vendor.class),
+			@ApiResponse(code = 500, message = "ENS-> Error While Saving Vendor Location Details", response = com.smartdude.entity.exception.Error.class) })
 	@PostMapping("/vendor/saveLocation")
-	public Locationdetail saveLocation(@RequestBody Locationdetail locationDetail) {
-		
-		return locationdetailRepository.save(locationDetail);
+	public LocationDetail saveLocation(@RequestBody LocationDetail locationDetail) throws EntitySaveException {
+		return locationDetailsService.save(locationDetail);
 	}
-	@PutMapping("/vendor/updateLocation/{locationID}")
-	public Locationdetail updateLocation(@RequestBody Locationdetail locationDetail,@PathVariable("locationID") Integer locationID) {
-		locationDetail.setLocationid(locationID);
-		return locationdetailRepository.save(locationDetail);
-	}
-	
-	@DeleteMapping("/vendor/deleteLocation/{locationID}")
-	public void deleteLocation(@PathVariable("locationID") Integer locationID) {
-
-		locationdetailRepository.deleteById(locationID);
-
-	}
-	
-	@GetMapping("/smartdude/getUser")
-	public List<User> getUser() {
-		return userRepository.findAll();
-	}
-	/*
-	 * @GetMapping("/admin/findAllVendors") public List<Vendor> finAllVendors(){
-	 * return vendorRepository.findAll(); }
-	 * 
-	 * @PutMapping("admin/updateVendor/{vendorID}") public Vendor
-	 * updateVendorDetial(@RequestBody Vendor vendor,@PathVariable("vendorID")
-	 * String vendorId ) {
-	 * 
-	 * LocalDateTime createdTimeStamp = LocalDateTime.now();
-	 * vendor.setAuthendicatedTime(createdTimeStamp); return
-	 * vendorRepository.save(vendor); }
-	 */
-	
 }
