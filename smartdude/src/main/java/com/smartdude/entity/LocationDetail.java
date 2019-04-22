@@ -27,8 +27,8 @@ public class LocationDetail implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@ApiModelProperty(notes = "Vendor Unique Location ID", required = true)
-	@Column(name = "location_id")
-	private int locationId;
+	@Column(name = "locationid")
+	private int locationid;
 	
 	@ApiModelProperty(notes = "Vendor Location State Name", required = true)
 	@Column(name = "state")
@@ -61,6 +61,6 @@ public class LocationDetail implements Serializable {
 	@JsonProperty(access = Access.WRITE_ONLY)
 	@ManyToOne(fetch = FetchType.LAZY)
 	@ApiModelProperty(notes = "Vendor Unique ID", required = true)
-	@JoinColumn(name = "vendor_id", nullable = false)
+	@JoinColumn(name = "vendorid", nullable = false)
 	private Vendor vendor;
 }

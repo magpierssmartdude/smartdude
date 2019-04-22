@@ -32,7 +32,7 @@ public class Role implements Serializable {
 	@ApiModelProperty(notes = "Unique Role ID", required = true)
 	private Integer roleId;
 	
-	@Column(name="role_code")
+	@Column(name="rolecode")
 	@ApiModelProperty(notes = "Role Code", required = true)
 	private String roleCode;
 }

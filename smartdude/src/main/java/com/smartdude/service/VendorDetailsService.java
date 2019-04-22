@@ -1,6 +1,7 @@
 package com.smartdude.service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,7 +37,7 @@ public class VendorDetailsService {
 	public Vendor updateActiveStatus(VendorDTO vendorDTO) throws EntitySaveException {
 		try {
 			Vendor vendor = vendorMapper.vendorDTOToVendor(vendorDTO);
-			vendor.setAuthendicatedTime(LocalDateTime.now());
+			vendor.setAuthendicatedtime(LocalDateTime.now());
 			return vendoRepository.save(vendor);
 		} catch (Exception e) {
 			throw new EntitySaveException("Error Occured While Authenticating The Vendor. Please Try Again.");
@@ -44,10 +45,15 @@ public class VendorDetailsService {
 	}
 
 	public Vendor findByVendorid(Integer vendorId) throws EntityNotFoundException {
-		Vendor vendor = vendoRepository.findByVendorId(vendorId);
+		Vendor vendor = vendoRepository.findByVendorid(vendorId);
 		if (vendor == null) {
 			throw new EntityNotFoundException("Vendor Details Not Found For The Given Vendor ID " + vendorId);
 		}
 		return vendor;
+	}
+
+	public List<Vendor> findAllVendors() {
+		// TODO Auto-generated method stub
+		return vendoRepository.findAll();
 	}
 }

@@ -21,7 +21,7 @@ import lombok.Data;
 
 @Entity
 @Data
-@Table(name="queue_manager")
+@Table(name="queuemanager")
 public class QueueManager implements Serializable{
 
 	private static final long serialVersionUID = 8204683531454364262L;
@@ -29,36 +29,36 @@ public class QueueManager implements Serializable{
 	@Id
 	@ApiModelProperty(notes = "Queue Manager Unique ID", required = true)
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name = "queue_manager_id")
-	private Integer queueManagerId;
+	@Column(name = "qmanagerid")
+	private Integer queueManagerid;
 	
 	@ApiModelProperty(notes = "Queue Manager Name")
-	@Column(name = "queue_manager_name")
-	private String queueManagerName;
+	@Column(name = "qmanagername")
+	private String queueManagername;
 	
 	@ApiModelProperty(notes = "Queue Manager Hand Phone")
-	@Column(name = "queue_manager_phone_number")
-	private String qManagerPhoneNumber;
+	@Column(name = "qmanagerphonenumber")
+	private String qmanagerphonenumber;
 	
 	@ApiModelProperty(notes = "Queue Manager Email ID")
-	@Column(name = "queue_manager_email_id")
-	private String qManagerEmailId;
+	@Column(name = "qmanageremailid")
+	private String qmanageremailId;
 	
 	@ApiModelProperty(notes = "Queue Manager Password")
-	@Column(name = "queue_manager_password")
-	private String qManagerPassword;
+	@Column(name = "qmanagerpassword")
+	private String qmanagerpassword;
 
 	@ApiModelProperty(notes = "Queue Manager Created TimeStamp")
-	@Column(name = "queue_manager_create_timestamp")
+	@Column(name = "createdtimestamp")
 	private LocalDateTime createdtimestamp;
 	
 	@ApiModelProperty(notes = "Queue Manager Last Updated TimeStamp")
-	@Column(name = "queue_manager_update_timestamp")
+	@Column(name = "updatedtimestamp")
 	private LocalDateTime updatedtimestamp;
 	
 	@JsonProperty(access = Access.WRITE_ONLY)
 	@ManyToOne(fetch = FetchType.LAZY)
 	@ApiModelProperty(notes = "Vendor Unique ID", required = true)
-	@JoinColumn(name = "vendor_id", nullable = false)
+	@JoinColumn(name = "vendorid", nullable = false)
 	private Vendor vendor;
 }

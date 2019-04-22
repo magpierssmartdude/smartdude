@@ -9,5 +9,6 @@ import com.smartdude.entity.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, String>{
-	public Optional<User> findByUserName(String personName);
+
+	public Optional<User> findByUsername(String userName);
 }

@@ -31,39 +31,39 @@ public class Vendor implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@ApiModelProperty(notes = "Vendor Unique ID", required = true)
-	@Column(name = "vendor_id")
-	private Integer vendorId;
+	@Column(name = "vendorid")
+	private Integer vendorid;
 
 	@ApiModelProperty(notes = "Vendor Code", required = true)
-	@Column(name = "vendor_code")
-	private String vendorCode;
+	@Column(name = "vendorcode")
+	private String vendorcode;
 
 	@ApiModelProperty(notes = "Vendor Name")
-	@Column(name = "vendor_name")
-	private String vendorName;
+	@Column(name = "vendorname")
+	private String vendorname;
 	
 	@ApiModelProperty(notes = "Vendor Organizantion Type")
-	@Column(name = "organization_type")
-	private String organizationType;
+	@Column(name = "organizationtype")
+	private String organizationtype;
 	
 	@ApiModelProperty(notes = "Vendor Authenticated Time", required = true)
-	@Column(name = "authendicated_time")
-	private LocalDateTime authendicatedTime;
+	@Column(name = "authendicatedtime")
+	private LocalDateTime authendicatedtime;
 
 	@ApiModelProperty(notes = "Vendor Organizantion Name")
-	@Column(name = "organization_name")
-	private String organizationName;
+	@Column(name = "organizationname")
+	private String organizationname;
 	
 	@ApiModelProperty(notes = "Vendor Password")
 	@Column(name = "password")
 	private String password;
 	
 	@ApiModelProperty(notes = "Vendor Hand Phone")
-	@Column(name = "phone_number")
-	private String phoneNumber;
+	@Column(name = "phonenumber")
+	private String phonenumber;
 	
 	@ApiModelProperty(notes = "Vendor Created TIme Stamp")
-	@Column(name = "created_timestmap")
+	@Column(name = "createdtimestamp")
 	private LocalDateTime createdTimeStamp;
 	
 	@ApiModelProperty(notes = "Status Of The Vendor")

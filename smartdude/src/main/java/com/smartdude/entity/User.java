@@ -31,31 +31,31 @@ public class User implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@ApiModelProperty(notes = "User Unique ID")
-	@Column(name = "user_id")
-	private Integer userId;
+	@Column(name = "userID")
+	private Integer userid;
 
-	@Column(name = "user_name")
+	@Column(name = "username")
 	@ApiModelProperty(notes = "User Name", required = true)
-	private String userName;
+	private String username;
 
 	@Column(name = "client_code")
 	@ApiModelProperty(notes = "Client Code", required = true)
-	private String clientCode;
+	private String clientcode;
 
 	@Column(name = "password")
 	@ApiModelProperty(notes = "User Password which will be Encrypted while Storing", required = true)
 	private String password;
 
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinColumn(name = "user_id", nullable = false)
+	@JoinColumn(name = "userid", nullable = false)
 	@ApiModelProperty(notes = "List of roles that an user decides to play here", required = true)
 	private List<Role> roles;
 	
 	public User(User user) {
 		super();
-		this.userName = user.getUserName();
+		this.username = user.getUsername();
 		this.password = user.getPassword();
-		this.clientCode = user.getClientCode();
+		this.clientcode = user.getClientcode();
 		this.roles = user.getRoles();
 	}
 }
