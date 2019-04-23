@@ -30,11 +30,11 @@ public class QueueManager implements Serializable{
 	@ApiModelProperty(notes = "Queue Manager Unique ID", required = true)
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name = "qmanagerid")
-	private Integer queueManagerid;
+	private Integer queuemanagerid;
 	
 	@ApiModelProperty(notes = "Queue Manager Name")
 	@Column(name = "qmanagername")
-	private String queueManagername;
+	private String queuemanagername;
 	
 	@ApiModelProperty(notes = "Queue Manager Hand Phone")
 	@Column(name = "qmanagerphonenumber")

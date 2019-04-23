@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import io.swagger.annotations.ApiModelProperty;
@@ -38,7 +39,7 @@ public class User implements Serializable {
 	@ApiModelProperty(notes = "User Name", required = true)
 	private String username;
 
-	@Column(name = "client_code")
+	@Column(name = "clientcode")
 	@ApiModelProperty(notes = "Client Code", required = true)
 	private String clientcode;
 
@@ -51,11 +52,23 @@ public class User implements Serializable {
 	@ApiModelProperty(notes = "List of roles that an user decides to play here", required = true)
 	private List<Role> roles;
 	
+	@OneToOne(fetch = FetchType.LAZY)
+	@ApiModelProperty(notes = "Vendor Unique ID", required = true)
+	@JoinColumn(name = "vendorid", nullable = false)
+	private Vendor vendor;
+	
+	@OneToOne(fetch = FetchType.LAZY)
+	@ApiModelProperty(notes = "queue manager Unique ID", required = true)
+	@JoinColumn(name = "qmanagerid", nullable = false)
+	private QueueManager qmanager;
+	
 	public User(User user) {
 		super();
 		this.username = user.getUsername();
 		this.password = user.getPassword();
 		this.clientcode = user.getClientcode();
 		this.roles = user.getRoles();
+		this.qmanager = user.getQmanager();
+		this.vendor = user.getVendor();
 	}
 }

@@ -63,4 +63,10 @@ public class LocationDetail implements Serializable {
 	@ApiModelProperty(notes = "Vendor Unique ID", required = true)
 	@JoinColumn(name = "vendorid", nullable = false)
 	private Vendor vendor;
+	
+	/*
+	 * private String latitude;
+	 * 
+	 * private String lognitude;
+	 */
 }

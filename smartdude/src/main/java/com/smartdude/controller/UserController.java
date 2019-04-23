@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.smartdude.dto.UserDTO;
 import com.smartdude.entity.User;
 import com.smartdude.entity.exception.EntitySaveException;
 import com.smartdude.entity.exception.PasswordEncryptionException;
@@ -34,10 +33,10 @@ public class UserController {
 			@ApiResponse(code = 500, message = "ENS -> Error While Saving User Details", response = com.smartdude.entity.exception.Error.class) })
 	@PostMapping(value = "/saveUser", consumes = "application/json", produces = "application/json")
 	public ResponseEntity<User> saveUser(
-			@ApiParam(value = "User Details For Storing In Database", required = true, name = "userDTO") @RequestBody UserDTO userDTO)
+			@ApiParam(value = "User Details For Storing In Database", required = true, name = "userDTO") @RequestBody User user)
 			throws PasswordEncryptionException, EntitySaveException {
-		User user = userService.saveUser(userDTO);
-		return new ResponseEntity<>(user, HttpStatus.OK);
+		User savedUser = userService.saveUser(user);
+		return new ResponseEntity<>(savedUser, HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "To Get Users List", response = User.class, nickname = "User List")
@@ -47,4 +46,7 @@ public class UserController {
 		List<User> userList = userService.getUsers();
 		return new ResponseEntity<>(userList, HttpStatus.OK);
 	}
+	
+	
+	
 }

@@ -28,15 +28,14 @@ public class UserService {
 
 	
 	@Transactional
-	public User saveUser(UserDTO userDTO) throws PasswordEncryptionException, EntitySaveException {
+	public User saveUser(User user) throws PasswordEncryptionException, EntitySaveException {
 		try {
-			String password = passwordEncoder.encode(userDTO.getPassword());
-			userDTO.setPassword(password);
+			String password = passwordEncoder.encode(user.getPassword());
+			user.setPassword(password);
 		} catch (Exception e) {
 			throw new PasswordEncryptionException("Password Encryption Is Unsuccessful");
 		}
 		try {
-			User user = userMapper.userDTOToUser(userDTO);
 			return userRepository.save(user);
 		} catch (Exception e) {
 			throw new EntitySaveException("Error Occured While Creating The User. Please Try Again.");

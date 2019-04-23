@@ -82,6 +82,12 @@ public class VendorDetailsController {
 		return locationDetailsService.save(locationDetail);
 	}
 	
+	@GetMapping("/vendor/findAllLocations")
+	public List<LocationDetail> findAllLocations() throws EntitySaveException {
+		return locationDetailsService.findAllLocations();
+	}
+	
+	
 	@DeleteMapping("/vendor/deleteLocation/{locationID}")
 	public void deleteLocation(@PathVariable("locationID") Integer locationID) {
 		locationDetailsService.deleteById(locationID);
