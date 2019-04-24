@@ -7,7 +7,5 @@ import com.smartdude.entity.Vendor;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface VendorMapper {
-
-
 	Vendor vendorDTOToVendor(VendorDTO dto);
 }

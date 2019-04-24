@@ -11,7 +11,6 @@ import com.smartdude.dto.VendorDTO;
 import com.smartdude.entity.Vendor;
 import com.smartdude.entity.exception.EntityNotFoundException;
 import com.smartdude.entity.exception.EntitySaveException;
-import com.smartdude.mapper.VendorMapper;
 import com.smartdude.repository.VendorRepository;
 
 @Service
@@ -28,9 +27,9 @@ public class VendorDetailsService {
 	public Vendor vendorSignUp(Vendor vendor) throws EntitySaveException {
 	//	Vendor vendor = vendorMapper.vendorDTOToVendor(vendorDTO);
 		try {
-			String vendorFirstName  = vendor.getVendorname().substring(1,2);
+			String vendorFirstName  = vendor.getVendorname().substring(0,2);
 			String vendorCode = vendor.getVendorcode();
-			String phoneNum = vendor.getPhonenumber().substring(1,4);
+			String phoneNum = vendor.getPhonenumber().substring(0,4);
 			String password = vendorFirstName+vendorCode+phoneNum;
 			vendor.setPassword(password);
 			vendor.setCreatedTimeStamp(LocalDateTime.now());

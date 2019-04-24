@@ -28,4 +28,8 @@ output:
     "locationdetails": null,
     "queuemanagers": null
 }
+---------------------------------------------------------------------------------------------
+
+
+http://localhost:8080/admin/approveVendor/11
 

@@ -1,5 +1,6 @@
 package com.smartdude.service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +30,7 @@ public class UserService {
 	private UserRepository userRepository;
 	
 	@Autowired
-	private VendorRepository VendorRepository;
+	private VendorRepository vendorRepository;
 
 	
 	@Transactional
@@ -66,7 +67,7 @@ public class UserService {
 		roles.add(adminRole);
 		
 		Role qmRole = new Role();
-		adminRole.setRoleCode("QM");
+		qmRole.setRoleCode("QM");
 		roles.add(qmRole);
 		
 		user.setRoles(roles);
@@ -74,12 +75,16 @@ public class UserService {
 		Vendor userVendor = new Vendor();
 		userVendor.setVendorid(vendor.getVendorid());
 		user.setVendor(userVendor);
+		
+		vendor.setAuthendicatedtime(LocalDateTime.now());
+		vendor.setStatus(true);
+		vendorRepository.save(vendor);
 		saveUser(user);
 		return user;
 	}
 
 	public User approveVendor(Integer vendorID) throws PasswordEncryptionException, EntitySaveException {
-		Vendor vendor=  VendorRepository.findByVendorid(vendorID);
+		Vendor vendor=  vendorRepository.findByVendorid(vendorID);
 		if(vendor!=null) {
 			return approveVendor(vendor);
 		}

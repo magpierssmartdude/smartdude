@@ -160,6 +160,9 @@ CREATE TABLE `role` (
 ) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
+ALTER TABLE `smartdude`.`role` 
+CHANGE COLUMN `rolecode` `rolecode` VARCHAR(30) NOT NULL ;
+
 --
 -- Dumping data for table `role`
 --
