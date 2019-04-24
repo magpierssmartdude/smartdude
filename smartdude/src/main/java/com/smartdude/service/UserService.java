@@ -13,16 +13,15 @@ import com.smartdude.entity.User;
 import com.smartdude.entity.Vendor;
 import com.smartdude.entity.exception.EntitySaveException;
 import com.smartdude.entity.exception.PasswordEncryptionException;
-import com.smartdude.mapper.UserMapper;
 import com.smartdude.repository.UserRepository;
 import com.smartdude.repository.VendorRepository;
 
 @Service
 public class UserService {
 
-	@Autowired
-	private UserMapper userMapper;
-
+	/*
+	 * @Autowired private UserMapper userMapper;
+	 */
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 	
@@ -55,7 +54,12 @@ public class UserService {
 	
 	public User approveVendor(Vendor vendor) throws PasswordEncryptionException, EntitySaveException {
 		
-		User user = userMapper.vendorToUser(vendor);
+	//	User user = userMapper.vendorToUser(vendor);
+		User user = new User();
+		user.setUsername(vendor.getVendorname());
+		user.setClientcode(vendor.getVendorcode());
+		user.setPassword(passwordEncoder.encode(vendor.getPassword()));
+		
 		List<Role> roles = new ArrayList();
 		Role adminRole = new Role();
 		adminRole.setRoleCode("VENDOR");

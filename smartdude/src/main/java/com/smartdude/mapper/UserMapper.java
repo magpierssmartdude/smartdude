@@ -16,6 +16,5 @@ public interface UserMapper {
 	
 	@Mapping(target="username",source="vendorname")
 	@Mapping(target="clientcode",source="vendorcode")
-	@Mapping(target="clientcode",source="vendorcode")
 	User vendorToUser(Vendor vendor);
 }

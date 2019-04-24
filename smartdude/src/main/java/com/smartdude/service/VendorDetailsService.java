@@ -20,8 +20,9 @@ public class VendorDetailsService {
 	@Autowired
 	private VendorRepository vendoRepository;
 
-	@Autowired
-	private VendorMapper vendorMapper;
+	/*
+	 * @Autowired private VendorMapper vendorMapper;
+	 */
 
 	@Transactional
 	public Vendor vendorSignUp(Vendor vendor) throws EntitySaveException {
@@ -41,9 +42,12 @@ public class VendorDetailsService {
 	@Transactional
 	public Vendor updateActiveStatus(VendorDTO vendorDTO) throws EntitySaveException {
 		try {
-			Vendor vendor = vendorMapper.vendorDTOToVendor(vendorDTO);
-			vendor.setAuthendicatedtime(LocalDateTime.now());
-			return vendoRepository.save(vendor);
+			/*
+			 * Vendor vendor = vendorMapper.vendorDTOToVendor(vendorDTO);
+			 * vendor.setAuthendicatedtime(LocalDateTime.now()); return
+			 * vendoRepository.save(vendor);
+			 */
+			return null;
 		} catch (Exception e) {
 			throw new EntitySaveException("Error Occured While Authenticating The Vendor. Please Try Again.");
 		}
