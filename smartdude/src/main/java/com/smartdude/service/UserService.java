@@ -59,7 +59,7 @@ public class UserService {
 		User user = new User();
 		user.setUsername(vendor.getVendorname());
 		user.setClientcode(vendor.getVendorcode());
-		user.setPassword(passwordEncoder.encode(vendor.getPassword()));
+		user.setPassword(vendor.getPassword());
 		
 		List<Role> roles = new ArrayList();
 		Role adminRole = new Role();
@@ -74,7 +74,7 @@ public class UserService {
 		
 		Vendor userVendor = new Vendor();
 		userVendor.setVendorid(vendor.getVendorid());
-		user.setVendor(userVendor);
+	//	user.setVendor(userVendor);
 		
 		vendor.setAuthendicatedtime(LocalDateTime.now());
 		vendor.setStatus(true);
