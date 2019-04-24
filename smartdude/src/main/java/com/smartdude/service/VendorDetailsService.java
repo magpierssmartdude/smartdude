@@ -33,6 +33,7 @@ public class VendorDetailsService {
 			String phoneNum = vendor.getPhonenumber().substring(1,4);
 			String password = vendorFirstName+vendorCode+phoneNum;
 			vendor.setPassword(password);
+			vendor.setCreatedTimeStamp(LocalDateTime.now());
 			return vendoRepository.save(vendor);
 		} catch (Exception e) {
 			throw new EntitySaveException("Error Occured While Creating The Vendor. Please Try Again.");

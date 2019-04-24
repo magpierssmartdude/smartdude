@@ -1,0 +1,31 @@
+http://localhost:8080/smartdude/signup
+
+input:
+
+{
+    "vendorcode": "ISS",
+    "vendorname": "Umashankar",
+    "organizationtype": "Cafeteria",
+    "organizationname": "ISS Food Chain",
+    "phonenumber": "9698708672",
+    "status":0
+ 
+}
+
+output:
+
+{
+    "vendorid": 11,
+    "vendorcode": "ISS",
+    "vendorname": "Umashankar",
+    "organizationtype": "Cafeteria",
+    "authendicatedtime": null,
+    "organizationname": "ISS Food Chain",
+    "password": "mISS698",
+    "phonenumber": "9698708672",
+    "createdTimeStamp": "2019-04-24T08:19:12.215",
+    "status": false,
+    "locationdetails": null,
+    "queuemanagers": null
+}
+
