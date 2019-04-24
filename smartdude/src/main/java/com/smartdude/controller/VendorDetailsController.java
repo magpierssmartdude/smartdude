@@ -40,10 +40,10 @@ public class VendorDetailsController {
 			@ApiResponse(code = 500, message = "ENS-> Error While Saving Vendor Details", response = com.smartdude.entity.exception.Error.class) })
 	@PostMapping(value = "/smartdude/signup", consumes = "application/json", produces = "application/json")
 	public ResponseEntity<Vendor> vendorSignUp(
-			@ApiParam(value = "Vendor details like Vendor Code & Vendor Name", required = true, name = "VendorDTO") @RequestBody VendorDTO vendorDTO)
+			@ApiParam(value = "Vendor details like Vendor Code & Vendor Name", required = true, name = "VendorDTO") @RequestBody Vendor vendor)
 			throws EntitySaveException {
-		Vendor vendor = vendorDetailsService.vendorSignUp(vendorDTO);
-		return new ResponseEntity<>(vendor, HttpStatus.OK);
+		Vendor savedVendor = vendorDetailsService.vendorSignUp(vendor);
+		return new ResponseEntity<>(savedVendor, HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "To Update Vendor Authenticating Details With Active Status Changed", response = Vendor.class, nickname = "Vendor Authentication Update")

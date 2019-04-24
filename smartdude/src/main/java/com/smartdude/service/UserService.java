@@ -1,5 +1,6 @@
 package com.smartdude.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,12 +8,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.smartdude.dto.UserDTO;
+import com.smartdude.entity.Role;
 import com.smartdude.entity.User;
+import com.smartdude.entity.Vendor;
 import com.smartdude.entity.exception.EntitySaveException;
 import com.smartdude.entity.exception.PasswordEncryptionException;
 import com.smartdude.mapper.UserMapper;
 import com.smartdude.repository.UserRepository;
+import com.smartdude.repository.VendorRepository;
 
 @Service
 public class UserService {
@@ -25,6 +28,9 @@ public class UserService {
 	
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
+	private VendorRepository VendorRepository;
 
 	
 	@Transactional
@@ -46,4 +52,34 @@ public class UserService {
 		return userRepository.findAll();
 	}
 
+	
+	public User approveVendor(Vendor vendor) throws PasswordEncryptionException, EntitySaveException {
+		
+		User user = userMapper.vendorToUser(vendor);
+		List<Role> roles = new ArrayList();
+		Role adminRole = new Role();
+		adminRole.setRoleCode("VENDOR");
+		roles.add(adminRole);
+		
+		Role qmRole = new Role();
+		adminRole.setRoleCode("QM");
+		roles.add(qmRole);
+		
+		user.setRoles(roles);
+		
+		Vendor userVendor = new Vendor();
+		userVendor.setVendorid(vendor.getVendorid());
+		user.setVendor(userVendor);
+		saveUser(user);
+		return user;
+	}
+
+	public User approveVendor(Integer vendorID) throws PasswordEncryptionException, EntitySaveException {
+		Vendor vendor=  VendorRepository.findByVendorid(vendorID);
+		if(vendor!=null) {
+			return approveVendor(vendor);
+		}
+		return null;
+	}
+	
 }

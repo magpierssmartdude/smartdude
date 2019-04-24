@@ -24,9 +24,14 @@ public class VendorDetailsService {
 	private VendorMapper vendorMapper;
 
 	@Transactional
-	public Vendor vendorSignUp(VendorDTO vendorDTO) throws EntitySaveException {
-		Vendor vendor = vendorMapper.vendorDTOToVendor(vendorDTO);
+	public Vendor vendorSignUp(Vendor vendor) throws EntitySaveException {
+	//	Vendor vendor = vendorMapper.vendorDTOToVendor(vendorDTO);
 		try {
+			String vendorFirstName  = vendor.getVendorname().substring(1,2);
+			String vendorCode = vendor.getVendorcode();
+			String phoneNum = vendor.getPhonenumber().substring(1,4);
+			String password = vendorFirstName+vendorCode+phoneNum;
+			vendor.setPassword(password);
 			return vendoRepository.save(vendor);
 		} catch (Exception e) {
 			throw new EntitySaveException("Error Occured While Creating The Vendor. Please Try Again.");
