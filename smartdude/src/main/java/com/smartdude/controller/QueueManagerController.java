@@ -1,6 +1,9 @@
 package com.smartdude.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,6 +27,12 @@ public class QueueManagerController {
 	public QueueManager saveQManager(@RequestBody QueueManager queueManager) {
 		return queuemanagerService.save(queueManager);
 	}
+	
+	@PostMapping("/vendor/{vendorID}/qManagers")
+	public List<QueueManager> getQManagerDetails(@PathVariable("vendorID") Integer vendorID) {
+		return queuemanagerService.findQManagerByVendorID(vendorID);
+	}
+	
 	
 	@PostMapping("/vendor/associateLocationQmanager")
 	public LocationQueueManagerAssociation saveQManagerLocationAssociation(@RequestBody LocationQueueManagerAssociation queueManager) {

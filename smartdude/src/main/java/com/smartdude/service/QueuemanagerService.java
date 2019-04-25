@@ -1,5 +1,7 @@
 package com.smartdude.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -40,6 +42,11 @@ public class QueuemanagerService {
 
 	public com.smartdude.entity.Service saveService(com.smartdude.entity.Service service) {
 		return serviceRepository.save(service);
+	}
+
+	public List<QueueManager> findQManagerByVendorID(Integer vendorID) {
+		
+		return queueManagerRepository.findByVendorVendorid(vendorID);
 	}
 	
 }

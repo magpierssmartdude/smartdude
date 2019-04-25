@@ -15,6 +15,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -55,11 +57,13 @@ public class User implements Serializable {
 	@OneToOne(fetch = FetchType.LAZY)
 	@ApiModelProperty(notes = "Vendor Unique ID", required = true)
 	@JoinColumn(name = "vendorid", nullable = false)
+	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 	private Vendor vendor;
 	
 	@OneToOne(fetch = FetchType.LAZY)
 	@ApiModelProperty(notes = "queue manager Unique ID", required = true)
 	@JoinColumn(name = "qmanagerid", nullable = false)
+	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 	private QueueManager qmanager;
 	
 	public User(User user) {

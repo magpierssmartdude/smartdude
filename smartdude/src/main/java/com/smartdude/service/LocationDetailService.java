@@ -31,8 +31,18 @@ public class LocationDetailService {
 		
 	}
 
-	public List<LocationDetail> findAllLocations() {
-		return locationRepository.findAll();
+	public List<LocationDetail> findAllLocations(Integer vendorID) {
+		if(vendorID!=null && vendorID!=0) {
+		return locationRepository.findByVendorVendorid(vendorID);
+		}
+		return null;
+	}
+
+	public LocationDetail findLocationByLocationID(Integer vendorID, Integer locationID) {
+		if(vendorID!=null && vendorID!=0 && locationID!=null && locationID!=0) {
+			return locationRepository.findByVendorVendoridAndLocationid(vendorID,locationID);
+		}
+		return null;
 	}
 
 }

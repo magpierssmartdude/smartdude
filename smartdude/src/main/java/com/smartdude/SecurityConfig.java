@@ -40,9 +40,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .antMatchers("/saveUser").permitAll()
         .antMatchers("/swagger-ui.html").permitAll()
         .antMatchers("/smartdude/*").permitAll()
-        .antMatchers("/qm/*").hasAnyRole("VENDOR", "QM")
-        .antMatchers("/admin/*").hasAnyRole("ADMIN")
-        .antMatchers("/vendor/*").hasAnyRole("VENDOR","ADMIN")
+        .antMatchers("*/qm/*").hasAnyRole("VENDOR", "QM")
+        .antMatchers("*/admin/*").hasAnyRole("ADMIN")
+        .antMatchers("*/vendor/*").hasAnyRole("VENDOR")
+        .antMatchers("*/vendor/*").hasAnyRole("ADMIN")
+        .antMatchers("/all/*").hasAnyRole("VENDOR","ADMIN","QM")
         .anyRequest().authenticated().and()
         .exceptionHandling().accessDeniedPage("/noaccess");
         

@@ -1,16 +1,17 @@
 package com.smartdude.controller;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.smartdude.dto.UserDTO;
 import com.smartdude.entity.User;
 import com.smartdude.entity.exception.EntitySaveException;
 import com.smartdude.entity.exception.PasswordEncryptionException;
@@ -46,6 +47,12 @@ public class UserController {
 	public ResponseEntity<List<User>> getUsers() {
 		List<User> userList = userService.getUsers();
 		return new ResponseEntity<>(userList, HttpStatus.OK);
+	}
+	
+	@GetMapping("/all/findCurrentUser")
+	public UserDTO findCurretUser(Principal principle) {
+		String name = principle.getName();
+		return userService.findUserDTOByuserName(name);
 	}
 	
 }

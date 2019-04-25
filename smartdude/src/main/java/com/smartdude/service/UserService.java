@@ -3,26 +3,29 @@ package com.smartdude.service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.smartdude.dto.UserDTO;
 import com.smartdude.entity.Role;
 import com.smartdude.entity.User;
 import com.smartdude.entity.Vendor;
 import com.smartdude.entity.exception.EntitySaveException;
 import com.smartdude.entity.exception.PasswordEncryptionException;
+import com.smartdude.mapper.UserMapper;
 import com.smartdude.repository.UserRepository;
 import com.smartdude.repository.VendorRepository;
 
 @Service
 public class UserService {
 
-	/*
-	 * @Autowired private UserMapper userMapper;
-	 */
+	
+	@Autowired private UserMapper userMapper;
+	 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 	
@@ -74,7 +77,7 @@ public class UserService {
 		
 		Vendor userVendor = new Vendor();
 		userVendor.setVendorid(vendor.getVendorid());
-	//	user.setVendor(userVendor);
+		user.setVendor(userVendor);
 		
 		vendor.setAuthendicatedtime(LocalDateTime.now());
 		vendor.setStatus(true);
@@ -89,6 +92,18 @@ public class UserService {
 			return approveVendor(vendor);
 		}
 		return null;
+	}
+
+	public UserDTO findUserDTOByuserName(String name) {
+		Optional<User> user = userRepository.findByUsername(name);
+		if (user.isPresent()) {
+			return userMapper.userTOUserDTO(user.get());
+		}
+		return null;
+	}
+	
+	public Optional<User> findUserByName(String name) {
+		return userRepository.findByUsername(name);
 	}
 	
 }
