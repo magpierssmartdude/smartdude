@@ -7,9 +7,13 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.smartdude.entity.QueueManager;
-@Repository
-public interface QueueManagerRepository extends JpaRepository<QueueManager, Integer>{
 
-	public List<QueueManager> findByVendorVendorid(@Param("vendorid")Integer vendorID);
+@Repository
+public interface QueueManagerRepository extends JpaRepository<QueueManager, Integer> {
+
+	public List<QueueManager> findByVendorVendorid(@Param("vendorid") Integer vendorID);
+
+	public QueueManager findByQueuemanageridAndVendorVendorid(@Param("queuemanagerid") Integer queuemanagerid,
+			@Param("vendorid") Integer vendorID);
 
 }

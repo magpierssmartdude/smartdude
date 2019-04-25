@@ -282,3 +282,6 @@ UNLOCK TABLES;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2019-04-24  8:22:23
+
+ALTER TABLE `smartdude`.`queuemanager` 
+ADD COLUMN `activestatus` TINYINT NOT NULL AFTER `updatedtimestamp`;

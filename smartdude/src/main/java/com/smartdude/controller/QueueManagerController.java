@@ -3,8 +3,10 @@ package com.smartdude.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,22 +25,33 @@ public class QueueManagerController {
 	private QueuemanagerService queuemanagerService;
 	
 	
-	@PostMapping("/vendor/saveQManager")
+	@PostMapping("/vendor/qManager")
 	public QueueManager saveQManager(@RequestBody QueueManager queueManager) {
 		return queuemanagerService.save(queueManager);
 	}
 	
-	@PostMapping("/vendor/{vendorID}/qManagers")
+	@PutMapping("/vendor/qManager/{qmanagerID}")
+	public QueueManager updateQManager(@RequestBody QueueManager queueManager,
+			@PathVariable("qmanagerID") Integer qManagerID) {
+		return queuemanagerService.update(queueManager,qManagerID);
+	}
+
+	@GetMapping("/vendor/{vendorID}/qManagers")
 	public List<QueueManager> getQManagerDetails(@PathVariable("vendorID") Integer vendorID) {
 		return queuemanagerService.findQManagerByVendorID(vendorID);
 	}
 	
-	
-	@PostMapping("/vendor/associateLocationQmanager")
-	public LocationQueueManagerAssociation saveQManagerLocationAssociation(@RequestBody LocationQueueManagerAssociation queueManager) {
-		return queuemanagerService.save(queueManager);
+	@GetMapping("/vendor/{vendorID}/qManagers/{qmanagerID}")
+	public QueueManager getQManagerDetail(@PathVariable("vendorID") Integer vendorID,@PathVariable("qmanagerID")Integer qmanagerID) {
+		return queuemanagerService.findQManagerByVendorIDAndQmID(vendorID,qmanagerID);
 	}
 	
+	
+	@PostMapping("/vendor/{vendorID}/associateLocationQmanager")
+	public LocationQueueManagerAssociation saveQManagerLocationAssociation(
+			@RequestBody LocationQueueManagerAssociation queueManager,@PathVariable("vendorID") Integer vendorID) {
+		return queuemanagerService.save(queueManager,vendorID);
+	}
 	
 	@PostMapping("/qm/createQueue")
 	public Queue createQueue(@RequestBody Queue queue) {
