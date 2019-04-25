@@ -2,6 +2,7 @@ package com.smartdude.service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -54,11 +55,12 @@ public class VendorDetailsService {
 	}
 
 	public Vendor findByVendorid(Integer vendorId) throws EntityNotFoundException {
-		Vendor vendor = vendoRepository.findByVendorid(vendorId);
-		if (vendor == null) {
+		Optional<Vendor> vendor = vendoRepository.findByVendorid(vendorId);
+		if (vendor.isPresent()) {
+			return vendor.get();
+		} else {
 			throw new EntityNotFoundException("Vendor Details Not Found For The Given Vendor ID " + vendorId);
 		}
-		return vendor;
 	}
 
 	public List<Vendor> findAllVendors() {
