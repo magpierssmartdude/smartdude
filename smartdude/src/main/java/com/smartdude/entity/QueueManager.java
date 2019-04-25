@@ -62,6 +62,7 @@ public class QueueManager implements Serializable{
 	@JoinColumn(name = "vendorid", nullable = false)
 	private Vendor vendor;
 	
+	@ApiModelProperty(notes = "Vendor Active Status", required = true)
 	@Column(name="activestatus")
 	private Boolean activestatus;
 	

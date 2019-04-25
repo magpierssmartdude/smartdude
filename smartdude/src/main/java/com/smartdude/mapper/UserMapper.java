@@ -10,19 +10,15 @@ import com.smartdude.entity.Vendor;
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface UserMapper {
 
-
 	User userDTOToUser(UserDTO dto);
-
 	
 	@Mapping(target="username",source="vendorname")
 	@Mapping(target="clientcode",source="vendorcode")
 	User vendorToUser(Vendor vendor);
-
 	
 	@Mapping(target="vendorid",source="vendor.vendorid")
 	@Mapping(target="qmanagerid",source="qmanager.queuemanagerid")
 	@Mapping(target="vendor",ignore=true)
 	@Mapping(target="qmanager",ignore=true)
-	
 	public UserDTO userTOUserDTO(User user);
 }

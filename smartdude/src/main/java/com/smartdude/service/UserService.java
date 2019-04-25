@@ -105,11 +105,13 @@ public class UserService {
 		return user;
 	}
 
-	public User approveVendor(Integer vendorID)
+	public UserDTO approveVendor(Integer vendorID)
 			throws PasswordEncryptionException, EntitySaveException, EntityNotFoundException {
 		Optional<Vendor> vendor = vendorRepository.findByVendorid(vendorID);
 		if (vendor.isPresent()) {
-			return saveUser(vendor.get());
+			User user = saveUser(vendor.get());
+			UserDTO userDTO = userMapper.userTOUserDTO(user);
+			return userDTO;
 		} else {
 			throw new EntityNotFoundException("Vendor Details Not Found For The Given Vendor ID " + vendorID);
 		}
