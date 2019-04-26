@@ -1,5 +1,7 @@
 package com.smartdude.mapper;
 
+import java.util.List;
+
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
@@ -10,4 +12,6 @@ import com.smartdude.entity.QueueManager;
 public interface QueueManagerMapper {
 
 	public QueueManagerDTO queueManagerToQueueManagerDTO(QueueManager queueManager);
+
+	public List<QueueManagerDTO> queueManagerListToQueueManagerDtoList(List<QueueManager> managerList);
 }

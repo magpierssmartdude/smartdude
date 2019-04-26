@@ -2,6 +2,7 @@ package com.smartdude.handler;
 
 import java.time.LocalDateTime;
 import com.smartdude.entity.exception.Error;
+import com.smartdude.entity.exception.ParameterNotFound;
 import com.smartdude.entity.exception.PasswordEncryptionException;
 
 import org.springframework.core.Ordered;
@@ -50,6 +51,18 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 		apiError.setHttpStatus(HttpStatus.NOT_FOUND);
 		apiError.setMessage(ex.getMessage());
 		apiError.setErrorCode("ENF");
+		apiError.setDebugMessage(ex.toString());
+		return buildResponseEntity(apiError);
+	}
+	
+	@ExceptionHandler(ParameterNotFound.class)
+	public ResponseEntity<Object> handleParameterNotFound(EntityNotFoundException ex) {
+		Error apiError = new Error();
+		apiError.setTimestamp(LocalDateTime.now());
+		apiError.setStatus(404);
+		apiError.setHttpStatus(HttpStatus.BAD_REQUEST);
+		apiError.setMessage(ex.getMessage());
+		apiError.setErrorCode("PNF");
 		apiError.setDebugMessage(ex.toString());
 		return buildResponseEntity(apiError);
 	}
