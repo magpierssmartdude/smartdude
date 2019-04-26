@@ -72,6 +72,8 @@ public class QueuemanagerService {
 	}
 
 	public Queue save(Queue queue) {
+		queue.setCreateddatetime(LocalDateTime.now());
+		
 		return queueRepository.save(queue);
 	}
 
@@ -109,6 +111,22 @@ public class QueuemanagerService {
 	public LocationQueueManagerAssociation findByVendorID(Integer vendorID) {
 		// TODO Auto-generated method stub
 		return locationQueueManagerAssociationRepository.findByVendorVendorid(vendorID);
+	}
+
+	public Queue update(Queue queue, Integer queueid) {
+		if(queueid!=null && queueid!=0) {
+			queue.setQueueid(queueid);
+			queue.setLastupdatetime(LocalDateTime.now());
+		}
+		return null;
+	}
+
+	public List<Queue> findQByQManagerAssociationID(Integer qmID) {
+		return queueRepository.findByLocationQueueManagerAssociationLocqmanagerassociationid(qmID);
+	}
+
+	public Queue findQByQueueidAndQManagerAssociationID(Integer qmID, Integer queueid) {
+		return queueRepository.findByQueueidAndLocationQueueManagerAssociationLocqmanagerassociationid(queueid,qmID);
 	}
 
 }
