@@ -11,4 +11,6 @@ public interface LocationQueueManagerAssociationRepository extends JpaRepository
 
 	public LocationQueueManagerAssociation findByQmanagerid(@Param("qmanagerid")Integer qmID);
 
+	public LocationQueueManagerAssociation findByVendorVendorid(@Param("vendorid")Integer vendorID);
+
 }

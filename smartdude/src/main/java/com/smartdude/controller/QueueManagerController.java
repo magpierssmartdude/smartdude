@@ -66,6 +66,13 @@ public class QueueManagerController {
 		return queuemanagerService.save(queueManager,vendorID);
 	}
 	
+	@GetMapping("/vendor/{vendorID}/associateLocationQmanager")
+	public LocationQueueManagerAssociation getQManagerLocationAssociation(
+			@PathVariable("vendorID") Integer vendorID) {
+		return queuemanagerService.findByVendorID(vendorID);
+	}
+	
+	
 	@PostMapping("/vendor/{vendorID}/associateLocationQmanager/{associateLocationQmanagerID}")
 	public LocationQueueManagerAssociation updateQManagerLocationAssociation(
 			@PathVariable("vendorID") Integer vendorID,

@@ -106,4 +106,9 @@ public class QueuemanagerService {
 		return locationQueueManagerAssociationRepository.findByQmanagerid(qmID);
 	}
 
+	public LocationQueueManagerAssociation findByVendorID(Integer vendorID) {
+		// TODO Auto-generated method stub
+		return locationQueueManagerAssociationRepository.findByVendorVendorid(vendorID);
+	}
+
 }
