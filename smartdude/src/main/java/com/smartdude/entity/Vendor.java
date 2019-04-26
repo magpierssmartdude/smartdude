@@ -77,4 +77,9 @@ public class Vendor implements Serializable {
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "vendor")
 	@ApiModelProperty(notes = "Vendor Queue Details")
 	private List<QueueManager> queuemanagers;
+	
+	
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "vendor")
+	@ApiModelProperty(notes = "Vendor Queue Details")
+	private List<LocationQueueManagerAssociation> locationQueueManagerAssociations;
 }

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.smartdude.dto.QueueManagerDTO;
@@ -63,6 +64,19 @@ public class QueueManagerController {
 	public LocationQueueManagerAssociation saveQManagerLocationAssociation(
 			@RequestBody LocationQueueManagerAssociation queueManager,@PathVariable("vendorID") Integer vendorID) {
 		return queuemanagerService.save(queueManager,vendorID);
+	}
+	
+	@PostMapping("/vendor/{vendorID}/associateLocationQmanager/{associateLocationQmanagerID}")
+	public LocationQueueManagerAssociation updateQManagerLocationAssociation(
+			@PathVariable("vendorID") Integer vendorID,
+			@PathVariable("associateLocationQmanagerID") Integer associateLocationQmanagerID,@RequestParam(required=true) Boolean status) {
+		return queuemanagerService.updateAssociation(vendorID,associateLocationQmanagerID,status);
+	}
+	
+	
+	@GetMapping("/qm/{queuemanagerid}/getLocationAssociations")
+	public LocationQueueManagerAssociation findByQMId(@PathVariable("queuemanagerid") Integer qmID) {
+		return queuemanagerService.findAssocationBQMID(qmID);
 	}
 	
 	@PostMapping("/qm/createQueue")

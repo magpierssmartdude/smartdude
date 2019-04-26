@@ -2,6 +2,7 @@ package com.smartdude.service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -62,6 +63,7 @@ public class QueuemanagerService {
 
 	public LocationQueueManagerAssociation save(LocationQueueManagerAssociation queueManager, Integer vendorID) {
 		if (vendorID != null && vendorID != 0) {
+			queueManager.setCreatedtimestamp(LocalDateTime.now());
 			return locationQueueManagerAssociationRepository.save(queueManager);
 		} else {
 			// throws exception
@@ -84,6 +86,24 @@ public class QueuemanagerService {
 
 	public QueueManager findQManagerByVendorIDAndQmID(Integer vendorID, Integer qmanagerID) {
 		return queueManagerRepository.findByQueuemanageridAndVendorVendorid(qmanagerID, vendorID);
+	}
+
+	public LocationQueueManagerAssociation updateAssociation(Integer vendorID, Integer associateLocationQmanagerID,
+			Boolean status) {
+		Optional<LocationQueueManagerAssociation> locationQueueManagerAssociation = locationQueueManagerAssociationRepository
+				.findById(associateLocationQmanagerID);
+		if (locationQueueManagerAssociation.isPresent()) {
+			locationQueueManagerAssociation.get().setLocqmanagerassociationid(associateLocationQmanagerID);
+			locationQueueManagerAssociation.get().setActivestatus(status);
+			locationQueueManagerAssociation.get().setUpdatedtimestamp(LocalDateTime.now());
+			return locationQueueManagerAssociationRepository.save(locationQueueManagerAssociation.get());
+		}
+		return null;
+	}
+
+	public LocationQueueManagerAssociation findAssocationBQMID(Integer qmID) {
+		// TODO Auto-generated method stub
+		return locationQueueManagerAssociationRepository.findByQmanagerid(qmID);
 	}
 
 }
