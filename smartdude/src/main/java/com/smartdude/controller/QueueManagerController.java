@@ -105,8 +105,27 @@ public class QueueManagerController {
 		return queuemanagerService.findQByQueueidAndQManagerAssociationID(qmID, queueid);
 	}
 
-	@PostMapping("/qm/addService")
+	@PostMapping("/qm/service")
 	public Service addService(@RequestBody Service service) {
 		return queuemanagerService.saveService(service);
 	}
+	@PutMapping("qm/service/{serviceid}")
+	public Service updateService(@RequestBody Service service,@PathVariable("serviceid") Integer serviceid) {
+		return queuemanagerService.updateService(service,serviceid);
+	}
+	
+	
+	@GetMapping("qm/{queueid}/service")
+	public List<Service> getAllServicesByQueueID(@PathVariable("queueid") Integer queueid) {
+		return queuemanagerService.getServiceByQueueID(queueid);
+	}
+	
+	
+	
+	@GetMapping("qm/{queueid}/service/{serviceid}")
+	public Service getAllServicesByQueueIDAndServiceID(@PathVariable("queueid") Integer queueid ,@PathVariable("serviceid")Integer serviceID) {
+		return queuemanagerService.getServiceByQueueIDAndServiceID(queueid,serviceID);
+	}
+	
+	
 }

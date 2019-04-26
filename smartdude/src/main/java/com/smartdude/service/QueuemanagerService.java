@@ -129,4 +129,19 @@ public class QueuemanagerService {
 		return queueRepository.findByQueueidAndLocationQueueManagerAssociationLocqmanagerassociationid(queueid,qmID);
 	}
 
+	public com.smartdude.entity.Service updateService(com.smartdude.entity.Service service, Integer serviceid) {
+		service.setServiceid(serviceid);
+		return serviceRepository.save(service);
+	}
+
+	public List<com.smartdude.entity.Service> getServiceByQueueID(Integer queueid) {
+		// TODO Auto-generated method stub
+		return serviceRepository.findByQueueQueueid(queueid);
+	}
+
+	public com.smartdude.entity.Service getServiceByQueueIDAndServiceID(Integer queueid, Integer serviceID) {
+		// TODO Auto-generated method stub
+		return serviceRepository.findByServiceidAndQueueQueueid(serviceID,queueid);
+	}
+
 }
