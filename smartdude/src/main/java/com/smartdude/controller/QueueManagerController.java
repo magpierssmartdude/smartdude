@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.smartdude.dto.LocationQueueManagerAssociationDTO;
+import com.smartdude.dto.QueueDTO;
 import com.smartdude.dto.QueueManagerDTO;
 import com.smartdude.entity.LocationQueueManagerAssociation;
 import com.smartdude.entity.Queue;
@@ -138,25 +139,50 @@ public class QueueManagerController {
 		return new ResponseEntity<>(locationQueueManagerAssociationDTO, HttpStatus.OK);
 	}
 
-	
+	@ApiOperation(value = "Create Queue", response = Queue.class, nickname = "Queue Creation")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK", response = QueueDTO.class),
+			@ApiResponse(code = 500, message = "ENS-> Error In Saving Queue Details", response = com.smartdude.entity.exception.Error.class) })
 	@PostMapping("/qm/queue")
-	public Queue createQueue(@RequestBody Queue queue) {
-		return queuemanagerService.save(queue);
+	public ResponseEntity<QueueDTO> createQueue(
+			@ApiParam(value = "Queue Details", required = true, name = "queue") @RequestBody Queue queue)
+			throws EntitySaveException {
+		QueueDTO queueDTO = queuemanagerService.save(queue);
+		return new ResponseEntity<>(queueDTO, HttpStatus.OK);
 	}
 
+	@ApiOperation(value = "Updating Queue Details", response = Queue.class, nickname = "Queue Updation")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK", response = QueueDTO.class),
+			@ApiResponse(code = 500, message = "ENS-> Error In Updating Queue Details", response = com.smartdude.entity.exception.Error.class),
+			@ApiResponse(code = 400, message = "PNF-> Incorrect Parameter", response = com.smartdude.entity.exception.Error.class),
+			@ApiResponse(code = 404, message = "ENF-> Queue Details Not Found ", response = com.smartdude.entity.exception.Error.class) })
 	@PutMapping("/qm/queue/{queueid}")
-	public Queue updateQueue(@RequestBody Queue queue, @PathVariable("queueid") Integer queueid) {
-		return queuemanagerService.update(queue, queueid);
+	public ResponseEntity<QueueDTO> updateQueue(
+			@ApiParam(value = "Queue Details", required = true, name = "queue") @RequestBody Queue queue,
+			@ApiParam(value = "Queue Unique ID", required = true, allowMultiple = false, name = "queueid") @PathVariable("queueid") Integer queueid)
+			throws ParameterNotFound, EntitySaveException, EntityNotFoundException {
+		QueueDTO queueDTO = queuemanagerService.update(queue, queueid);
+		return new ResponseEntity<>(queueDTO, HttpStatus.OK);
 	}
 
+	@ApiOperation(value = "Queue Details With Queue Manager Location Association ID", response = QueueDTO.class, nickname = "Queue Details")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK", response = QueueDTO.class),
+			@ApiResponse(code = 404, message = "ENF-> Queue Details Not Found ", response = com.smartdude.entity.exception.Error.class) })
 	@GetMapping("/qm/{qmaID}/queue")
-	public List<Queue> findQueuesByQManagerAssociationID(@PathVariable("qmaID") Integer qmID) {
-		return queuemanagerService.findQByQManagerAssociationID(qmID);
+	public ResponseEntity<List<QueueDTO>> findQueuesByQManagerAssociationID(
+			@ApiParam(value = "Queue Manager Location Association Unique ID", required = true, allowMultiple = false, name = "qmaID") @PathVariable("qmaID") Integer qmID)
+			throws EntityNotFoundException {
+		List<QueueDTO> dtoList = queuemanagerService.findQByQManagerAssociationID(qmID);
+		return new ResponseEntity<>(dtoList, HttpStatus.OK);
 	}
 
+	@ApiOperation(value = "Queue Details With Queue Manager ID And Queue ID", response = QueueDTO.class, nickname = "Queue Details")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK", response = QueueDTO.class),
+			@ApiResponse(code = 404, message = "ENF-> Queue Details Not Found", response = com.smartdude.entity.exception.Error.class) })
 	@GetMapping("/qm/{qmaID}/queue/{queueid}")
-	public Queue findQueueByQueueIDAndQManagerAssociationID(@PathVariable("qmaID") Integer qmID,
-			@PathVariable("queueid") Integer queueid) {
+	public QueueDTO findQueueByQueueIDAndQManagerAssociationID(
+			@ApiParam(value = "Queue Manager Location Association Unique ID", required = true, allowMultiple = false, name = "qmaID") @PathVariable("qmaID") Integer qmID,
+			@ApiParam(value = "Queue Unique ID", required = true, allowMultiple = false, name = "queueid") @PathVariable("queueid") Integer queueid)
+			throws EntityNotFoundException {
 		return queuemanagerService.findQByQueueidAndQManagerAssociationID(qmID, queueid);
 	}
 

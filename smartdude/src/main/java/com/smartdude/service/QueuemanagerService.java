@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import com.smartdude.dto.LocationQueueManagerAssociationDTO;
+import com.smartdude.dto.QueueDTO;
 import com.smartdude.dto.QueueManagerDTO;
 import com.smartdude.entity.LocationQueueManagerAssociation;
 import com.smartdude.entity.Queue;
@@ -20,6 +21,7 @@ import com.smartdude.entity.exception.EntitySaveException;
 import com.smartdude.entity.exception.ParameterNotFound;
 import com.smartdude.mapper.LocationQueueManagerAssociationMapper;
 import com.smartdude.mapper.QueueManagerMapper;
+import com.smartdude.mapper.QueueMapper;
 import com.smartdude.repository.LocationQueueManagerAssociationRepository;
 import com.smartdude.repository.QueueManagerRepository;
 import com.smartdude.repository.QueueRepository;
@@ -41,6 +43,8 @@ public class QueuemanagerService {
 	private QueueManagerMapper queueManagerMapper;
 	@Autowired
 	private LocationQueueManagerAssociationMapper locationQueueManagerAssociationMapper;
+	@Autowired
+	private QueueMapper queueMapper;
 
 	@Transactional
 	public QueueManagerDTO save(QueueManager queueManager) throws EntitySaveException {
@@ -101,10 +105,16 @@ public class QueuemanagerService {
 		}
 	}
 
-	public Queue save(Queue queue) {
-		queue.setCreateddatetime(LocalDateTime.now());
-
-		return queueRepository.save(queue);
+	@Transactional
+	public QueueDTO save(Queue queue) throws EntitySaveException {
+		try {
+			queue.setCreateddatetime(LocalDateTime.now());
+			Queue savedQueue = queueRepository.save(queue);
+			QueueDTO queueDTO = queueMapper.queueToQueueDTO(savedQueue);
+			return queueDTO;
+		} catch (Exception e) {
+			throw new EntitySaveException("Error Occured While Saving Queue Details . Please Try After Some Time");
+		}
 	}
 
 	public com.smartdude.entity.Service saveService(com.smartdude.entity.Service service) {
@@ -191,20 +201,47 @@ public class QueuemanagerService {
 		}
 	}
 
-	public Queue update(Queue queue, Integer queueid) {
+	@Transactional
+	public QueueDTO update(Queue queue, Integer queueid)
+			throws ParameterNotFound, EntitySaveException, EntityNotFoundException {
 		if (queueid != null && queueid != 0) {
-			queue.setQueueid(queueid);
-			queue.setLastupdatetime(LocalDateTime.now());
+			Optional<Queue> queueDetails = queueRepository.findById(queueid);
+			if (queueDetails.isPresent()) {
+				queue.setQueueid(queueid);
+				queue.setLastupdatetime(LocalDateTime.now());
+				try {
+					Queue updatedQueue = queueRepository.save(queue);
+					QueueDTO queueDTO = queueMapper.queueToQueueDTO(updatedQueue);
+					return queueDTO;
+				} catch (Exception e) {
+					throw new EntitySaveException("Error Occured While Updating Queue Details. Please Try Again");
+				}
+			} else {
+				throw new EntityNotFoundException("Queue Details Not Found For The Provided Queue ID " + queueid);
+			}
+		} else {
+			throw new ParameterNotFound("Invalid Value in Paramater Queue ID . Please Try With Correct Value");
 		}
-		return null;
 	}
 
-	public List<Queue> findQByQManagerAssociationID(Integer qmID) {
-		return queueRepository.findByLocationQueueManagerAssociationLocqmanagerassociationid(qmID);
+	public List<QueueDTO> findQByQManagerAssociationID(Integer qmID) throws EntityNotFoundException {
+		List<Queue> queue = queueRepository.findByLocationQueueManagerAssociationLocqmanagerassociationid(qmID);
+		if(CollectionUtils.isEmpty(queue)) {
+			throw new EntityNotFoundException("Queue Details Not Found For The Given Queue Manager Location Association ID " + qmID);
+		} else {
+			List<QueueDTO> queueDTO = queueMapper.queueDTOListToQueueList(queue);
+			return queueDTO;
+		}
 	}
 
-	public Queue findQByQueueidAndQManagerAssociationID(Integer qmID, Integer queueid) {
-		return queueRepository.findByQueueidAndLocationQueueManagerAssociationLocqmanagerassociationid(queueid, qmID);
+	public QueueDTO findQByQueueidAndQManagerAssociationID(Integer qmID, Integer queueid) throws EntityNotFoundException {
+		Optional<Queue> queue = queueRepository.findByQueueidAndLocationQueueManagerAssociationLocqmanagerassociationid(queueid, qmID);
+		if (queue.isPresent()) {
+			QueueDTO queueDTO = queueMapper.queueToQueueDTO(queue.get());
+			return queueDTO;
+		} else {
+			throw new EntityNotFoundException("Queue Details Not Found For The Given Queue Manager ID " + qmID + " And Queue ID " + queueid);
+		}
 	}
 
 	public com.smartdude.entity.Service updateService(com.smartdude.entity.Service service, Integer serviceid) {
