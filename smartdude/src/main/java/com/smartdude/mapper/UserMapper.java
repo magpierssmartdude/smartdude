@@ -27,7 +27,7 @@ public interface UserMapper {
 	@Mapping(target="vendor",ignore=true)
 	@Mapping(target="qmanager",source="queueManager")
 	@Mapping(target="roles",ignore=true)
-	@Mapping(target="üsername",source="queuemanagername")
+	@Mapping(target="username",source="queuemanagername")
 	public User queueManagerToUser(QueueManager queueManager);
 	
 	
