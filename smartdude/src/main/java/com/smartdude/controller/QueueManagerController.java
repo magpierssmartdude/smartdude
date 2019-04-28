@@ -199,20 +199,40 @@ public class QueueManagerController {
 		return new ResponseEntity<>(serviceDTO, HttpStatus.OK);
 	}
 
+	@ApiOperation(value = "Update Service Details", response = Queue.class, nickname = "Service Updation")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK", response = ServiceDTO.class),
+			@ApiResponse(code = 500, message = "ENS-> Error In Updating Service Details", response = com.smartdude.entity.exception.Error.class),
+			@ApiResponse(code = 404, message = "ENF-> Service Details Not Found", response = com.smartdude.entity.exception.Error.class) })
 	@PutMapping("qm/service/{serviceid}")
-	public Service updateService(@RequestBody Service service, @PathVariable("serviceid") Integer serviceid) {
-		return queuemanagerService.updateService(service, serviceid);
+	public ResponseEntity<ServiceDTO> updateService(
+			@ApiParam(value = "service Details", required = true, name = "service") @RequestBody Service service,
+			@ApiParam(value = "Unique Service ID", required = true, allowMultiple = false, name = "serviceid") @PathVariable("serviceid") Integer serviceid)
+			throws EntityNotFoundException, EntitySaveException {
+		ServiceDTO serviceDTO = queuemanagerService.updateService(service, serviceid);
+		return new ResponseEntity<>(serviceDTO, HttpStatus.OK);
 	}
 
+	@ApiOperation(value = "Get Service Details", response = Queue.class, nickname = "Service Details")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK", response = ServiceDTO.class),
+			@ApiResponse(code = 404, message = "ENF-> Service Details Not Found", response = com.smartdude.entity.exception.Error.class) })
 	@GetMapping("qm/{queueid}/service")
-	public List<Service> getAllServicesByQueueID(@PathVariable("queueid") Integer queueid) {
-		return queuemanagerService.getServiceByQueueID(queueid);
+	public ResponseEntity<List<ServiceDTO>> getAllServicesByQueueID(
+			@ApiParam(value = "Unique Queue ID", required = true, allowMultiple = false, name = "queueid") @PathVariable("queueid") Integer queueid)
+			throws EntityNotFoundException {
+		List<ServiceDTO> serviceList = queuemanagerService.getServiceByQueueID(queueid);
+		return new ResponseEntity<>(serviceList, HttpStatus.OK);
 	}
 
+	@ApiOperation(value = "Get Service Details", response = Queue.class, nickname = "Service Updation")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK", response = ServiceDTO.class),
+			@ApiResponse(code = 404, message = "ENF-> Service Details Not Found", response = com.smartdude.entity.exception.Error.class) })
 	@GetMapping("qm/{queueid}/service/{serviceid}")
-	public Service getAllServicesByQueueIDAndServiceID(@PathVariable("queueid") Integer queueid,
-			@PathVariable("serviceid") Integer serviceID) {
-		return queuemanagerService.getServiceByQueueIDAndServiceID(queueid, serviceID);
+	public ResponseEntity<ServiceDTO> getAllServicesByQueueIDAndServiceID(
+			@ApiParam(value = "Unique Queue ID", required = true, allowMultiple = false, name = "queueid") @PathVariable("queueid") Integer queueid,
+			@ApiParam(value = "Unique Service ID", required = true, allowMultiple = false, name = "serviceid") @PathVariable("serviceid") Integer serviceID)
+			throws EntityNotFoundException {
+		ServiceDTO serviceDTO = queuemanagerService.getServiceByQueueIDAndServiceID(queueid, serviceID);
+		return new ResponseEntity<>(serviceDTO, HttpStatus.OK);
 	}
 
 }

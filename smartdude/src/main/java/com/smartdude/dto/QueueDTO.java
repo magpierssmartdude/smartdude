@@ -25,6 +25,9 @@ public class QueueDTO {
 	@ApiModelProperty(notes = "Queue Created Date And Time", required = true)
 	private LocalDateTime createddatetime;
 	
+	@ApiModelProperty(notes = "Days When The Queue To Be Created", allowableValues = "MON, TUE, WED, THU, FRI, SAT, SUN")
+	private String days;
+	
 	@ApiModelProperty(notes = "Queue Creator ID", required = true)
 	private Integer createdmanagerid;
 	

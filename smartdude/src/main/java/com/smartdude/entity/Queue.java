@@ -49,6 +49,9 @@ public class Queue implements Serializable{
 	@ApiModelProperty(notes = "Queue Creator ID", required = true)
 	private Integer createdmanagerid;
 	
+	@ApiModelProperty(notes = "Days When The Queue To Be Created", allowableValues = "MON, TUE, WED, THU, FRI, SAT, SUN")
+	private String days;
+	
 	@ApiModelProperty(notes = "Queue Updated Date And Time", required = true)
 	private LocalDateTime lastupdatetime;
 	

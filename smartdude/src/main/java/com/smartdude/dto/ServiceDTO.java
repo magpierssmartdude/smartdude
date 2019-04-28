@@ -20,6 +20,9 @@ public class ServiceDTO {
 	@ApiModelProperty(notes = "Measurement Unit Of The Service")
 	private Integer units;
 	
+	@ApiModelProperty(notes = "Days When The Service To Be Created", allowableValues = "MON, TUE, WED, THU, FRI, SAT, SUN")
+	private String days;
+	
 	@ApiModelProperty(notes = "Price Of Each Service")
 	private Float price;
 	

@@ -1,5 +1,7 @@
 package com.smartdude.mapper;
 
+import java.util.List;
+
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
@@ -10,4 +12,6 @@ import com.smartdude.entity.Service;
 public interface ServiceMapper {
 
 	ServiceDTO serviceToServiceDTO (Service service);
+	
+	List<ServiceDTO> serviceListToServiceDTOList (List<Service> serviceList);
 }

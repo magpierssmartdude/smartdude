@@ -263,19 +263,44 @@ public class QueuemanagerService {
 		}
 	}
 
-	public com.smartdude.entity.Service updateService(com.smartdude.entity.Service service, Integer serviceid) {
-		service.setServiceid(serviceid);
-		return serviceRepository.save(service);
+	public ServiceDTO updateService(com.smartdude.entity.Service service, Integer serviceid)
+			throws EntityNotFoundException, EntitySaveException {
+		Optional<com.smartdude.entity.Service> toUpdate = serviceRepository.findById(serviceid);
+		if (toUpdate.isPresent()) {
+			try {
+				service.setServiceid(serviceid);
+				com.smartdude.entity.Service savedService = serviceRepository.save(service);
+				ServiceDTO serviceDTO = serviceMapper.serviceToServiceDTO(savedService);
+				return serviceDTO;
+			} catch (Exception e) {
+				throw new EntitySaveException("Error Occured While Updating Service Details. Please Try Again");
+			}
+		} else {
+			throw new EntityNotFoundException("Service Details Not Found For The Provided ID " + serviceid);
+		}
 	}
 
-	public List<com.smartdude.entity.Service> getServiceByQueueID(Integer queueid) {
-		// TODO Auto-generated method stub
-		return serviceRepository.findByQueueQueueid(queueid);
+	public List<ServiceDTO> getServiceByQueueID(Integer queueid) throws EntityNotFoundException {
+		List<com.smartdude.entity.Service> serviceList = serviceRepository.findByQueueQueueid(queueid);
+		if (CollectionUtils.isEmpty(serviceList)) {
+			throw new EntityNotFoundException("Service Details Not Found For The Provided Queue ID " + queueid);
+		} else {
+			List<ServiceDTO> serviceDTOList = serviceMapper.serviceListToServiceDTOList(serviceList);
+			return serviceDTOList;
+		}
 	}
 
-	public com.smartdude.entity.Service getServiceByQueueIDAndServiceID(Integer queueid, Integer serviceID) {
-		// TODO Auto-generated method stub
-		return serviceRepository.findByServiceidAndQueueQueueid(serviceID, queueid);
+	public ServiceDTO getServiceByQueueIDAndServiceID(Integer queueid, Integer serviceID)
+			throws EntityNotFoundException {
+		Optional<com.smartdude.entity.Service> service = serviceRepository.findByServiceidAndQueueQueueid(serviceID,
+				queueid);
+		if (service.isPresent()) {
+			ServiceDTO serviceDTO = serviceMapper.serviceToServiceDTO(service.get());
+			return serviceDTO;
+		} else {
+			throw new EntityNotFoundException(
+					"Service Details Not Found For The Provided Queue ID " + queueid + " And Service ID " + serviceID);
+		}
 	}
 
 }

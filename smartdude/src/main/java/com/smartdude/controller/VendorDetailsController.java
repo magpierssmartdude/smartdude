@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.smartdude.dto.LocationDetailDTO;
 import com.smartdude.dto.VendorDTO;
 import com.smartdude.entity.LocationDetail;
 import com.smartdude.entity.Vendor;
@@ -68,16 +69,16 @@ public class VendorDetailsController {
 		return new ResponseEntity<>(vendor, HttpStatus.OK);
 	}
 
-	@ApiOperation(value = "To Save Vendor Details", response = Vendor.class, nickname = "Vendor SignUp")
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK", response = Vendor.class),
+	@ApiOperation(value = "To Save Vendor Location Details", response = Vendor.class, nickname = "Vendor Location Save")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK", response = LocationDetailDTO.class),
 			@ApiResponse(code = 500, message = "ENS-> Error While Saving Vendor Location Details", response = com.smartdude.entity.exception.Error.class) })
 	@PostMapping("/vendor/saveLocation")
-	public LocationDetail saveLocation(@RequestBody LocationDetail locationDetail) throws EntitySaveException {
+	public LocationDetailDTO saveLocation(@RequestBody LocationDetail locationDetail) throws EntitySaveException {
 		return locationDetailsService.save(locationDetail);
 	}
 	
 	@PutMapping("/vendor/updateLocation/{locationID}")
-	public LocationDetail updateLocation(@RequestBody LocationDetail locationDetail,@PathVariable("locationID") Integer locationID) throws EntitySaveException {
+	public LocationDetailDTO updateLocation(@RequestBody LocationDetail locationDetail,@PathVariable("locationID") Integer locationID) throws EntitySaveException {
 		locationDetail.setLocationid(locationID);
 		return locationDetailsService.save(locationDetail);
 	}
