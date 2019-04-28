@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.smartdude.dto.LocationQueueManagerAssociationDTO;
 import com.smartdude.dto.QueueDTO;
 import com.smartdude.dto.QueueManagerDTO;
+import com.smartdude.dto.ServiceDTO;
 import com.smartdude.entity.LocationQueueManagerAssociation;
 import com.smartdude.entity.Queue;
 import com.smartdude.entity.QueueManager;
@@ -179,16 +180,23 @@ public class QueueManagerController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK", response = QueueDTO.class),
 			@ApiResponse(code = 404, message = "ENF-> Queue Details Not Found", response = com.smartdude.entity.exception.Error.class) })
 	@GetMapping("/qm/{qmaID}/queue/{queueid}")
-	public QueueDTO findQueueByQueueIDAndQManagerAssociationID(
+	public ResponseEntity<QueueDTO> findQueueByQueueIDAndQManagerAssociationID(
 			@ApiParam(value = "Queue Manager Location Association Unique ID", required = true, allowMultiple = false, name = "qmaID") @PathVariable("qmaID") Integer qmID,
 			@ApiParam(value = "Queue Unique ID", required = true, allowMultiple = false, name = "queueid") @PathVariable("queueid") Integer queueid)
 			throws EntityNotFoundException {
-		return queuemanagerService.findQByQueueidAndQManagerAssociationID(qmID, queueid);
+		QueueDTO queueDTO = queuemanagerService.findQByQueueidAndQManagerAssociationID(qmID, queueid);
+		return new ResponseEntity<>(queueDTO, HttpStatus.OK);
 	}
 
+	@ApiOperation(value = "Create Service", response = Queue.class, nickname = "Service Creation")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK", response = ServiceDTO.class),
+			@ApiResponse(code = 500, message = "ENS-> Error In Saving Queue Details", response = com.smartdude.entity.exception.Error.class) })
 	@PostMapping("/qm/service")
-	public Service addService(@RequestBody Service service) {
-		return queuemanagerService.saveService(service);
+	public ResponseEntity<ServiceDTO> addService(
+			@ApiParam(value = "service Details", required = true, name = "service") @RequestBody Service service)
+			throws EntitySaveException {
+		ServiceDTO serviceDTO = queuemanagerService.saveService(service);
+		return new ResponseEntity<>(serviceDTO, HttpStatus.OK);
 	}
 
 	@PutMapping("qm/service/{serviceid}")

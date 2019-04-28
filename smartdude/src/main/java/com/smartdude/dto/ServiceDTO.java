@@ -1,35 +1,13 @@
-package com.smartdude.entity;
+package com.smartdude.dto;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
-
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonProperty.Access;
-
+import com.smartdude.entity.Queue;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-@Entity
-@Table(name="service")
 @Data
-public class Service implements Serializable{
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -8740797331322269436L;
+public class ServiceDTO {
 	
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@ApiModelProperty(notes = "Unique ID For Each Service")
 	private Integer serviceid;
 	
@@ -57,10 +35,6 @@ public class Service implements Serializable{
 	@ApiModelProperty(notes = "Last Updated Date And Time")
 	private LocalDateTime updatedtimestamp;
 	
-	
-	@JsonProperty(access = Access.WRITE_ONLY)
-	@ManyToOne(fetch = FetchType.LAZY)
 	@ApiModelProperty(notes = "Queue Details Of The Service")
-	@JoinColumn(name = "queueid", nullable = false)
 	private Queue queue;
 }

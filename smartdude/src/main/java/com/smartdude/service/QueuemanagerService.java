@@ -13,6 +13,7 @@ import org.springframework.util.CollectionUtils;
 import com.smartdude.dto.LocationQueueManagerAssociationDTO;
 import com.smartdude.dto.QueueDTO;
 import com.smartdude.dto.QueueManagerDTO;
+import com.smartdude.dto.ServiceDTO;
 import com.smartdude.entity.LocationQueueManagerAssociation;
 import com.smartdude.entity.Queue;
 import com.smartdude.entity.QueueManager;
@@ -22,13 +23,17 @@ import com.smartdude.entity.exception.ParameterNotFound;
 import com.smartdude.mapper.LocationQueueManagerAssociationMapper;
 import com.smartdude.mapper.QueueManagerMapper;
 import com.smartdude.mapper.QueueMapper;
+import com.smartdude.mapper.ServiceMapper;
 import com.smartdude.repository.LocationQueueManagerAssociationRepository;
 import com.smartdude.repository.QueueManagerRepository;
 import com.smartdude.repository.QueueRepository;
 import com.smartdude.repository.ServiceRepository;
 import com.smartdude.utility.SmartDudeUtilityService;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
 public class QueuemanagerService {
 
 	@Autowired
@@ -45,6 +50,8 @@ public class QueuemanagerService {
 	private LocationQueueManagerAssociationMapper locationQueueManagerAssociationMapper;
 	@Autowired
 	private QueueMapper queueMapper;
+	@Autowired
+	private ServiceMapper serviceMapper;
 
 	@Transactional
 	public QueueManagerDTO save(QueueManager queueManager) throws EntitySaveException {
@@ -117,8 +124,16 @@ public class QueuemanagerService {
 		}
 	}
 
-	public com.smartdude.entity.Service saveService(com.smartdude.entity.Service service) {
-		return serviceRepository.save(service);
+	@Transactional
+	public ServiceDTO saveService(com.smartdude.entity.Service service) throws EntitySaveException {
+		try {
+			com.smartdude.entity.Service savedService = serviceRepository.save(service);
+			ServiceDTO serviceDTO = serviceMapper.serviceToServiceDTO(savedService);
+			return serviceDTO;
+		} catch (Exception e) {
+			log.info("Exception occured due to " + e.getMessage());
+			throw new EntitySaveException("Error Occured While Saving Service Details. Please Try Again.");
+		}
 	}
 
 	@Transactional
@@ -226,21 +241,25 @@ public class QueuemanagerService {
 
 	public List<QueueDTO> findQByQManagerAssociationID(Integer qmID) throws EntityNotFoundException {
 		List<Queue> queue = queueRepository.findByLocationQueueManagerAssociationLocqmanagerassociationid(qmID);
-		if(CollectionUtils.isEmpty(queue)) {
-			throw new EntityNotFoundException("Queue Details Not Found For The Given Queue Manager Location Association ID " + qmID);
+		if (CollectionUtils.isEmpty(queue)) {
+			throw new EntityNotFoundException(
+					"Queue Details Not Found For The Given Queue Manager Location Association ID " + qmID);
 		} else {
 			List<QueueDTO> queueDTO = queueMapper.queueDTOListToQueueList(queue);
 			return queueDTO;
 		}
 	}
 
-	public QueueDTO findQByQueueidAndQManagerAssociationID(Integer qmID, Integer queueid) throws EntityNotFoundException {
-		Optional<Queue> queue = queueRepository.findByQueueidAndLocationQueueManagerAssociationLocqmanagerassociationid(queueid, qmID);
+	public QueueDTO findQByQueueidAndQManagerAssociationID(Integer qmID, Integer queueid)
+			throws EntityNotFoundException {
+		Optional<Queue> queue = queueRepository
+				.findByQueueidAndLocationQueueManagerAssociationLocqmanagerassociationid(queueid, qmID);
 		if (queue.isPresent()) {
 			QueueDTO queueDTO = queueMapper.queueToQueueDTO(queue.get());
 			return queueDTO;
 		} else {
-			throw new EntityNotFoundException("Queue Details Not Found For The Given Queue Manager ID " + qmID + " And Queue ID " + queueid);
+			throw new EntityNotFoundException(
+					"Queue Details Not Found For The Given Queue Manager ID " + qmID + " And Queue ID " + queueid);
 		}
 	}
 
