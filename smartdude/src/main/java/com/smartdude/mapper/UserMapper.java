@@ -4,6 +4,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 
 import com.smartdude.dto.UserDTO;
+import com.smartdude.entity.QueueManager;
 import com.smartdude.entity.User;
 import com.smartdude.entity.Vendor;
 
@@ -21,4 +22,13 @@ public interface UserMapper {
 	@Mapping(target="vendor",ignore=true)
 	@Mapping(target="qmanager",ignore=true)
 	public UserDTO userTOUserDTO(User user);
+
+	@Mapping(target="password",ignore=true)
+	@Mapping(target="vendor",ignore=true)
+	@Mapping(target="qmanager",source="queueManager")
+	@Mapping(target="roles",ignore=true)
+	@Mapping(target="üsername",source="queuemanagername")
+	public User queueManagerToUser(QueueManager queueManager);
+	
+	
 }
