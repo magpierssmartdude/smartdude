@@ -1,4 +1,6 @@
 package com.smartdude.mapper;
+import java.util.List;
+
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
@@ -30,5 +32,6 @@ public interface UserMapper {
 	@Mapping(target="username",source="queuemanagername")
 	public User queueManagerToUser(QueueManager queueManager);
 	
+	public List<UserDTO> userListToUserDTOList(List<User> list);
 	
 }

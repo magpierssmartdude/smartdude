@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import com.smartdude.dto.UserDTO;
 import com.smartdude.entity.Role;
@@ -40,7 +41,7 @@ public class UserService {
 	private VendorRepository vendorRepository;
 
 	@Transactional
-	public User saveUser(User user) throws PasswordEncryptionException, EntitySaveException {
+	public UserDTO saveUser(User user) throws PasswordEncryptionException, EntitySaveException {
 		try {
 			String password = passwordEncoder.encode(user.getPassword());
 			user.setPassword(password);
@@ -49,15 +50,23 @@ public class UserService {
 			throw new PasswordEncryptionException("Password Encryption Is Unsuccessful");
 		}
 		try {
-			return userRepository.save(user);
+			User savedUser = userRepository.save(user);
+			UserDTO userDTO = userMapper.userTOUserDTO(savedUser);
+			return userDTO;
 		} catch (Exception e) {
 			log.info("Error Occured", e.getMessage());
 			throw new EntitySaveException("Error Occured While Creating The User. Please Try Again.");
 		}
 	}
 
-	public List<User> getUsers() {
-		return userRepository.findAll();
+	public List<UserDTO> getUsers() throws EntityNotFoundException {
+		List<User> userList = userRepository.findAll();
+		if (CollectionUtils.isEmpty(userList)) {
+			throw new EntityNotFoundException("No User Was Found In The Application");
+		} else {
+			List<UserDTO> userDTOList = userMapper.userListToUserDTOList(userList);
+			return userDTOList;
+		}
 	}
 
 	private List<Role> setVendorRoles() {
@@ -117,12 +126,13 @@ public class UserService {
 		}
 	}
 
-	public UserDTO findUserDTOByuserName(String name) {
+	public UserDTO findUserDTOByuserName(String name) throws EntityNotFoundException {
 		Optional<User> user = userRepository.findByUsername(name);
 		if (user.isPresent()) {
 			return userMapper.userTOUserDTO(user.get());
+		} else {
+			throw new EntityNotFoundException("User Not Found For The Given Principal");
 		}
-		return null;
 	}
 
 	public Optional<User> findUserByName(String name) {
