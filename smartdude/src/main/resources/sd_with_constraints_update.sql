@@ -71,6 +71,17 @@ CREATE TABLE `locationqmanagerassociation` (
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
+
+CREATE TABLE `days` (
+    `dayid` int(11) NOT NULL AUTO_INCREMENT,
+	`dayname` varchar(100) DEFAULT NULL,
+	`daycode` varchar(100) DEFAULT NULL,
+	`serviceid` int(11) NOT NULL,
+	PRIMARY KEY (`dayid`),
+	KEY `serviceid_idx` (`serviceid`),
+	CONSTRAINT `serviceid` FOREIGN KEY (`serviceid`) REFERENCES `service` (`serviceid`)
+)
+
 --
 -- Dumping data for table `locationqmanagerassociation`
 --
@@ -235,7 +246,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (36,'abc','$2a$10$LQeBNQqzLZmrYBCxCLnaMuElBhin2yoQtOzwOvZQ0uV4.7cUZLEQe','ISS',NULL,NULL);
+INSERT INTO `user` VALUES (36,'abc','$2a$10$LQeBNQqzLZmrYBCxCLnaMuElBhin2yoQtOzwOvZQ0uV4.7cUZLEQe','ISS',1,NULL);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -268,7 +279,7 @@ CREATE TABLE `vendor` (
 
 LOCK TABLES `vendor` WRITE;
 /*!40000 ALTER TABLE `vendor` DISABLE KEYS */;
-INSERT INTO `vendor` VALUES (11,'ISS','Umashankar','Cafeteria','ISS Food Chain','2019-04-24 08:19:12',0,'mISS698','9698708672',NULL,NULL);
+INSERT INTO `vendor` VALUES (1,'ISS','Umashankar','Cafeteria','ISS Food Chain','2019-04-24 08:19:12',0,'mISS698','9698708672','2019-04-24 08:19:12','pavithra13994@gmail.com');
 /*!40000 ALTER TABLE `vendor` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

@@ -16,5 +16,4 @@ public interface ServiceRepository extends JpaRepository<Service, Integer>	{
 
 	public Optional<Service> findByServiceidAndQueueQueueid(@Param("serviceid")Integer serviceid,@Param("queueid")Integer queueid);
 	
-	
 }

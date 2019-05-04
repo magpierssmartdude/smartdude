@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.smartdude.dto.DaysDTO;
 import com.smartdude.dto.LocationQueueManagerAssociationDTO;
 import com.smartdude.dto.QueueDTO;
 import com.smartdude.dto.QueueManagerDTO;
@@ -188,7 +189,7 @@ public class QueueManagerController {
 		return new ResponseEntity<>(queueDTO, HttpStatus.OK);
 	}
 
-	@ApiOperation(value = "Create Service", response = Queue.class, nickname = "Service Creation")
+	@ApiOperation(value = "Create Service", response = ServiceDTO.class, nickname = "Service Creation")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK", response = ServiceDTO.class),
 			@ApiResponse(code = 500, message = "ENS-> Error In Saving Queue Details", response = com.smartdude.entity.exception.Error.class) })
 	@PostMapping("/qm/service")
@@ -199,7 +200,7 @@ public class QueueManagerController {
 		return new ResponseEntity<>(serviceDTO, HttpStatus.OK);
 	}
 
-	@ApiOperation(value = "Update Service Details", response = Queue.class, nickname = "Service Updation")
+	@ApiOperation(value = "Update Service Details", response = ServiceDTO.class, nickname = "Service Updation")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK", response = ServiceDTO.class),
 			@ApiResponse(code = 500, message = "ENS-> Error In Updating Service Details", response = com.smartdude.entity.exception.Error.class),
 			@ApiResponse(code = 404, message = "ENF-> Service Details Not Found", response = com.smartdude.entity.exception.Error.class) })
@@ -212,7 +213,7 @@ public class QueueManagerController {
 		return new ResponseEntity<>(serviceDTO, HttpStatus.OK);
 	}
 
-	@ApiOperation(value = "Get Service Details", response = Queue.class, nickname = "Service Details")
+	@ApiOperation(value = "Get Service Details", response = ServiceDTO.class, nickname = "Service Details")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK", response = ServiceDTO.class),
 			@ApiResponse(code = 404, message = "ENF-> Service Details Not Found", response = com.smartdude.entity.exception.Error.class) })
 	@GetMapping("qm/{queueid}/service")
@@ -223,7 +224,7 @@ public class QueueManagerController {
 		return new ResponseEntity<>(serviceList, HttpStatus.OK);
 	}
 
-	@ApiOperation(value = "Get Service Details", response = Queue.class, nickname = "Service Updation")
+	@ApiOperation(value = "Get Service Details", response = ServiceDTO.class, nickname = "Service Updation")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK", response = ServiceDTO.class),
 			@ApiResponse(code = 404, message = "ENF-> Service Details Not Found", response = com.smartdude.entity.exception.Error.class) })
 	@GetMapping("qm/{queueid}/service/{serviceid}")
@@ -235,4 +236,14 @@ public class QueueManagerController {
 		return new ResponseEntity<>(serviceDTO, HttpStatus.OK);
 	}
 
+	@ApiOperation(value = "Get Service Days Details", response = Queue.class, nickname = "Service Updation")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK", response = ServiceDTO.class),
+			@ApiResponse(code = 404, message = "ENF-> Days Details Not Found", response = com.smartdude.entity.exception.Error.class) })
+	@GetMapping("service/{serviceid}/days")
+	public ResponseEntity<List<DaysDTO>> getServiceRunningDays(
+			@ApiParam(value = "Unique Service ID", required = true, allowMultiple = false, name = "serviceid") @PathVariable("serviceid") Integer serviceid)
+			throws ParameterNotFound, EntityNotFoundException {
+		List<DaysDTO> daysList = queuemanagerService.getDays(serviceid);
+		return new ResponseEntity<>(daysList, HttpStatus.OK);
+	}
 }

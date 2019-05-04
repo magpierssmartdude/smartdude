@@ -1,3 +1,4 @@
+
 package com.smartdude.service;
 
 import java.time.LocalDateTime;
@@ -25,6 +26,7 @@ import com.smartdude.repository.VendorRepository;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
+
 @Slf4j
 public class UserService {
 
@@ -70,13 +72,12 @@ public class UserService {
 	}
 
 	private List<Role> setVendorRoles() {
-		List<Role> roleList = new ArrayList<>();
-		// Set Vendor Role For The User
+		List<Role> roleList = new ArrayList<>(); // Set Vendor Role For The User 
 		Role adminRole = new Role();
 		adminRole.setRoleCode("VENDOR");
 		roleList.add(adminRole);
 
-		// Set Vendor Role For The QM
+		// Set Vendor Role For The QM 
 		Role qmRole = new Role();
 		qmRole.setRoleCode("QM");
 		roleList.add(qmRole);
@@ -93,7 +94,7 @@ public class UserService {
 			List<Role> roles = setVendorRoles();
 			user.setRoles(roles);
 
-			// Set Vendor ID As A Foreign Key In User
+			// Set Vendor ID As A Foreign Key In User 
 			Vendor userVendor = new Vendor();
 			userVendor.setVendorid(vendor.getVendorid());
 			user.setVendor(userVendor);

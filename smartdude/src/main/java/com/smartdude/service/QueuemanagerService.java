@@ -10,20 +10,24 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import com.smartdude.dto.DaysDTO;
 import com.smartdude.dto.LocationQueueManagerAssociationDTO;
 import com.smartdude.dto.QueueDTO;
 import com.smartdude.dto.QueueManagerDTO;
 import com.smartdude.dto.ServiceDTO;
+import com.smartdude.entity.Days;
 import com.smartdude.entity.LocationQueueManagerAssociation;
 import com.smartdude.entity.Queue;
 import com.smartdude.entity.QueueManager;
 import com.smartdude.entity.exception.EntityNotFoundException;
 import com.smartdude.entity.exception.EntitySaveException;
 import com.smartdude.entity.exception.ParameterNotFound;
+import com.smartdude.mapper.DaysMapper;
 import com.smartdude.mapper.LocationQueueManagerAssociationMapper;
 import com.smartdude.mapper.QueueManagerMapper;
 import com.smartdude.mapper.QueueMapper;
 import com.smartdude.mapper.ServiceMapper;
+import com.smartdude.repository.DaysRepository;
 import com.smartdude.repository.LocationQueueManagerAssociationRepository;
 import com.smartdude.repository.QueueManagerRepository;
 import com.smartdude.repository.QueueRepository;
@@ -52,6 +56,10 @@ public class QueuemanagerService {
 	private QueueMapper queueMapper;
 	@Autowired
 	private ServiceMapper serviceMapper;
+	@Autowired
+	private DaysRepository daysRepository;
+	@Autowired
+	private DaysMapper daysMapper;
 
 	@Transactional
 	public QueueManagerDTO save(QueueManager queueManager) throws EntitySaveException {
@@ -300,6 +308,19 @@ public class QueuemanagerService {
 		} else {
 			throw new EntityNotFoundException(
 					"Service Details Not Found For The Provided Queue ID " + queueid + " And Service ID " + serviceID);
+		}
+	}
+
+	public List<DaysDTO> getDays(Integer serviceid) throws ParameterNotFound, EntityNotFoundException {
+		if (serviceid != null && serviceid != 0) {
+			List<Days> daysList = daysRepository.findByServiceServiceid(serviceid);
+			List<DaysDTO> daysDTO = daysMapper.daysListToDaysDTOList(daysList);
+			if (CollectionUtils.isEmpty(daysDTO)) {
+				throw new EntityNotFoundException("No Days Information Given For The Service Id " + serviceid);
+			}
+			return daysDTO;
+		} else {
+			throw new ParameterNotFound("Given Service Id Is Invalid. Please Provide Valid Service Id");
 		}
 	}
 

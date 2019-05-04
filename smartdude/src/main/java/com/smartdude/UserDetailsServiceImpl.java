@@ -1,3 +1,4 @@
+
 package com.smartdude;
 
 import java.util.Optional;
@@ -14,13 +15,13 @@ import com.smartdude.repository.UserRepository;
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    @Autowired
-    private UserRepository usersRepository;
-    
-    @Override
-    public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-        Optional<User> optionalUser = usersRepository.findByUsername(userName);
-        return Optional.ofNullable(optionalUser).orElseThrow(()->new UsernameNotFoundException("Username Not Found"))
-               .map(UserDetailsImpl::new).get();
-    }
+	@Autowired
+	private UserRepository usersRepository;
+
+	@Override
+	public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
+		Optional<User> optionalUser = usersRepository.findByUsername(userName);
+		return Optional.ofNullable(optionalUser).orElseThrow(() -> new UsernameNotFoundException("Username Not Found"))
+				.map(UserDetailsImpl::new).get();
+	}
 }

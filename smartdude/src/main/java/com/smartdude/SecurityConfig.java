@@ -37,12 +37,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .authorizeRequests()
         .antMatchers("/saveUser").permitAll()
         .antMatchers("/swagger-ui.html").permitAll()
-        .antMatchers("/smartdude/*").permitAll()
-        .antMatchers("*/qm/*").hasAnyRole("VENDOR", "QM")
-        .antMatchers("*/admin/*").hasAnyRole("ADMIN")
-        .antMatchers("*/vendor/*").hasAnyRole("VENDOR")
-        .antMatchers("*/vendor/*").hasAnyRole("ADMIN")
-        .antMatchers("/all/*").hasAnyRole("VENDOR","ADMIN","QM")
+        .antMatchers("*/smartdude/*").permitAll()
+		.antMatchers("*/qm/*").permitAll()
+		.antMatchers("*/admin/*").permitAll()
+		.antMatchers("*/vendor/*").permitAll()
+		.antMatchers("*/vendor/*").permitAll()
+		.antMatchers("*/all/*").permitAll()
+        
+				/*
+				 * //!!!!!!!!Removed * in all the below service to comment the security.
+				 * .antMatchers("/smartdude/*").permitAll()
+				 * .antMatchers("/qm/").hasAnyRole("VENDOR", "QM")
+				 * .antMatchers("/admin/").hasAnyRole("ADMIN")
+				 * .antMatchers("/vendor/").hasAnyRole("VENDOR")
+				 * .antMatchers("/vendor/").hasAnyRole("ADMIN")
+				 * .antMatchers("/all/*").hasAnyRole("VENDOR","ADMIN","QM")
+				 */
+        
         .anyRequest().authenticated().and()
         .exceptionHandling().accessDeniedPage("/noaccess");
         

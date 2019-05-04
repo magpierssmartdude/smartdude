@@ -6,6 +6,7 @@ import java.time.LocalTime;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -32,9 +33,11 @@ public class Queue implements Serializable{
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@ApiModelProperty(notes = "Unique Queue ID", required = true)
+	@Column(name = "qmanagerid")
 	private Integer queueid;
 	
 	@ApiModelProperty(notes = "Queue Name", required = true)
+	@Column(name = "queuename")
 	private String queuename;
 	
 	@ApiModelProperty(notes = "Location Queue Manager Association Details", required = true)
@@ -43,28 +46,32 @@ public class Queue implements Serializable{
 	@JoinColumn(name = "loctionqmanagerassociationid", nullable = false)
 	private LocationQueueManagerAssociation locationQueueManagerAssociation;
 	
+	@Column(name = "createddatetime")
 	@ApiModelProperty(notes = "Queue Created Date And Time", required = true)
 	private LocalDateTime createddatetime;
 	
+	@Column(name = "createdmanagerid")
 	@ApiModelProperty(notes = "Queue Creator ID", required = true)
 	private Integer createdmanagerid;
 	
-	@ApiModelProperty(notes = "Days When The Queue To Be Created", allowableValues = "MON, TUE, WED, THU, FRI, SAT, SUN")
-	private String days;
-	
+	@Column(name = "lastupdatetime")
 	@ApiModelProperty(notes = "Queue Updated Date And Time", required = true)
 	private LocalDateTime lastupdatetime;
 	
+	@Column(name = "activestatus")
 	@ApiModelProperty(notes = "Queue Status", required = true)
 	private boolean activestatus;
 	
+	@Column(name = "queueendtime")
 	@ApiModelProperty(notes = "Queue End Time", required = true)
 	private LocalTime queueendtime;
 	
+	@Column(name = "queuestarttime")
 	@ApiModelProperty(notes = "Queue Start Time", required = true)
 	private LocalTime queuestarttime;
 	
 	@ApiModelProperty(notes = "Queue Service Details", required = true)
+	@Column(name = "serviceid")
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "queue")
 	private List<Service> service;
 }
