@@ -34,7 +34,7 @@ public class UserController {
 	@ApiOperation(value = "To Save User Details", response = User.class, nickname = "Save User")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK", response = UserDTO.class),
 			@ApiResponse(code = 500, message = "ENS -> Error While Saving User Details, NO_PASS_ENCR -> Error During Password Encryption", response = com.smartdude.entity.exception.Error.class) })
-	@PostMapping(value = "/saveUser", consumes = "application/json", produces = "application/json")
+	@PostMapping(value = "/saveuser", consumes = "application/json", produces = "application/json")
 	public ResponseEntity<UserDTO> saveUser(
 			@ApiParam(value = "User Details", required = true, name = "user") @RequestBody User user)
 			throws PasswordEncryptionException, EntitySaveException {
@@ -45,7 +45,7 @@ public class UserController {
 	@ApiOperation(value = "To Get Users List", response = User.class, nickname = "User List")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK", response = UserDTO.class),
 			@ApiResponse(code = 404, message = "User Not Found", response = com.smartdude.entity.exception.Error.class)})
-	@GetMapping(value = "/smartdude/getUser", produces = "application/json")
+	@GetMapping(value = "/smartdude/getuser", produces = "application/json")
 	public ResponseEntity<List<UserDTO>> getUsers() throws EntityNotFoundException {
 		List<UserDTO> userDTOList = userService.getUsers();
 		return new ResponseEntity<>(userDTOList, HttpStatus.OK);
@@ -54,7 +54,7 @@ public class UserController {
 	@ApiOperation(value = "To Get Current User Details", response = UserDTO.class, nickname = "User Details")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK", response = UserDTO.class),
 			@ApiResponse(code = 404, message = "User Not Found", response = com.smartdude.entity.exception.Error.class)})
-	@GetMapping("/all/findCurrentUser")
+	@GetMapping("/all/findcurrentuser")
 	public ResponseEntity<UserDTO> findCurretUser(Principal principle) throws EntityNotFoundException {
 		String name = principle.getName();
 		UserDTO userDTO = userService.findUserDTOByuserName(name);

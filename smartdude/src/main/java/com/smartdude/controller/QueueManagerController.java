@@ -40,7 +40,7 @@ public class QueueManagerController {
 	@ApiOperation(value = "To Save Queue Manager Details", response = QueueManagerDTO.class, nickname = "Queue Manager SignUp")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK", response = QueueManagerDTO.class),
 			@ApiResponse(code = 500, message = "ENS-> Error While Saving Queue Details", response = com.smartdude.entity.exception.Error.class) })
-	@PostMapping("/vendor/qManager")
+	@PostMapping("/vendor/qmanager")
 	public ResponseEntity<QueueManagerDTO> saveQManager(
 			@ApiParam(value = "Queue Manager Details", required = true, name = "queueManager") @RequestBody QueueManager queueManager)
 			throws EntitySaveException {
@@ -52,7 +52,7 @@ public class QueueManagerController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK", response = QueueManagerDTO.class),
 			@ApiResponse(code = 500, message = "ENS-> Error While Saving Queue Mager Details", response = com.smartdude.entity.exception.Error.class),
 			@ApiResponse(code = 400, message = "PNF-> Invalid Parameter Given For Updating Queue Manager Details", response = com.smartdude.entity.exception.Error.class) })
-	@PutMapping("/vendor/qManager/{qmanagerID}")
+	@PutMapping("/vendor/qmanager/{qmanagerID}")
 	public ResponseEntity<QueueManagerDTO> updateQManager(
 			@ApiParam(value = "Queue Manager Details", required = true, name = "queueManager") @RequestBody QueueManager queueManager,
 			@ApiParam(value = "Queue Manager's Unique Code", required = true, allowMultiple = false, name = "qmanagerID") @PathVariable("qmanagerID") Integer qManagerID)
@@ -64,7 +64,7 @@ public class QueueManagerController {
 	@ApiOperation(value = "To Get Queue Manager Details For A Given Vendor ID", response = QueueManagerDTO.class, nickname = "Queue Manager Details")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK", response = QueueManagerDTO.class),
 			@ApiResponse(code = 404, message = "ENF-> Queue Manager Details Not Found For The Provided Vendor ID", response = com.smartdude.entity.exception.Error.class) })
-	@GetMapping("/vendor/{vendorID}/qManagers")
+	@GetMapping("/vendor/{vendorID}/qmanagers")
 	public ResponseEntity<List<QueueManagerDTO>> getQManagerDetails(
 			@ApiParam(value = "Vendor's Unique Code", required = true, allowMultiple = false, name = "vendorID") @PathVariable("vendorID") Integer vendorID)
 			throws EntityNotFoundException {
@@ -75,7 +75,7 @@ public class QueueManagerController {
 	@ApiOperation(value = "To Get Queue Manager Details For A Given Vendor ID & Queue Manager ID", response = QueueManagerDTO.class, nickname = "Queue Manager Details")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK", response = QueueManagerDTO.class),
 			@ApiResponse(code = 404, message = "ENF-> Queue Manager Details Not Found For The Provided Vendor ID & Queue Manager ID", response = com.smartdude.entity.exception.Error.class) })
-	@GetMapping("/vendor/{vendorID}/qManagers/{qmanagerID}")
+	@GetMapping("/vendor/{vendorID}/qmanagers/{qmanagerID}")
 	public ResponseEntity<QueueManagerDTO> getQManagerDetail(
 			@ApiParam(value = "Vendor's Unique Code", required = true, allowMultiple = false, name = "vendorID") @PathVariable("vendorID") Integer vendorID,
 			@ApiParam(value = "Queue Manager's Unique Code", required = true, allowMultiple = false, name = "qmanagerID") @PathVariable("qmanagerID") Integer qmanagerID)
@@ -88,7 +88,7 @@ public class QueueManagerController {
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = "OK", response = LocationQueueManagerAssociationDTO.class),
 			@ApiResponse(code = 500, message = "ENS-> Error While Saving Location Queue Manager Association Details", response = com.smartdude.entity.exception.Error.class) })
-	@PostMapping("/vendor/{vendorID}/associateLocationQmanager")
+	@PostMapping("/vendor/{vendorID}/associatelocationqmanager")
 	public ResponseEntity<LocationQueueManagerAssociationDTO> saveQManagerLocationAssociation(
 			@ApiParam(value = "Location Queue Manager Association Details", required = true, name = "queueManager") @RequestBody LocationQueueManagerAssociation queueManager,
 			@ApiParam(value = "Vendor's Unique Code", required = true, allowMultiple = false, name = "vendorID") @PathVariable("vendorID") Integer vendorID)
@@ -102,7 +102,7 @@ public class QueueManagerController {
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = "OK", response = LocationQueueManagerAssociationDTO.class),
 			@ApiResponse(code = 404, message = "ENF-> Location Queue Manager Association Details Not Found For The Provided Vendor ID", response = com.smartdude.entity.exception.Error.class) })
-	@GetMapping("/vendor/{vendorID}/associateLocationQmanager")
+	@GetMapping("/vendor/{vendorID}/associatelocationqmanager")
 	public ResponseEntity<LocationQueueManagerAssociationDTO> getQManagerLocationAssociation(
 			@ApiParam(value = "Vendor's Unique Code", required = true, allowMultiple = false, name = "vendorID") @PathVariable("vendorID") Integer vendorID)
 			throws EntityNotFoundException {
@@ -116,7 +116,7 @@ public class QueueManagerController {
 			@ApiResponse(code = 200, message = "OK", response = LocationQueueManagerAssociationDTO.class),
 			@ApiResponse(code = 500, message = "ENS-> Error While Updating Location Queue Mager Association Details", response = com.smartdude.entity.exception.Error.class),
 			@ApiResponse(code = 404, message = "ENF-> Location Queue Manager Association Details Not Found For The Provided Vendor ID & Location Queue Manager ID", response = com.smartdude.entity.exception.Error.class) })
-	@PostMapping("/vendor/{vendorID}/associateLocationQmanager/{associateLocationQmanagerID}")
+	@PostMapping("/vendor/{vendorID}/associatelocationqmanager/{associateLocationQmanagerID}")
 	public ResponseEntity<LocationQueueManagerAssociationDTO> updateQManagerLocationAssociation(
 			@ApiParam(value = "Vendor's Unique Code", required = true, allowMultiple = false, name = "vendorID") @PathVariable("vendorID") Integer vendorID,
 			@ApiParam(value = "Location Queue Manager Association Unique Code", required = true, allowMultiple = false, name = "associateLocationQmanagerID") @PathVariable("associateLocationQmanagerID") Integer associateLocationQmanagerID,
@@ -131,7 +131,7 @@ public class QueueManagerController {
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = "OK", response = LocationQueueManagerAssociationDTO.class),
 			@ApiResponse(code = 404, message = "ENF-> Location Queue Manager Association Details Not Found For The Provided Queue Manager ID", response = com.smartdude.entity.exception.Error.class) })
-	@GetMapping("/qm/{queuemanagerid}/getLocationAssociations")
+	@GetMapping("/qm/{queuemanagerid}/getlocationassociations")
 	public ResponseEntity<LocationQueueManagerAssociationDTO> findByQMId(
 			@ApiParam(value = "Queue Manager's Unique ID", required = true, allowMultiple = false, name = "queuemanagerid") @PathVariable("queuemanagerid") Integer qmID)
 			throws EntityNotFoundException {

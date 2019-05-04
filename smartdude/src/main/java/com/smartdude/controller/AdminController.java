@@ -30,7 +30,7 @@ public class AdminController {
 			@ApiResponse(code = 500, message = "ENS -> Error While Saving Vendor Details Or User Details", response = com.smartdude.entity.exception.Error.class),
 			@ApiResponse(code = 404, message = "ENF -> Vendor Details Not Found", response = com.smartdude.entity.exception.Error.class),
 			@ApiResponse(code = 500, message = "NO_PASS_ENCR -> Error Occured During Password Encryption", response = com.smartdude.entity.exception.Error.class) })
-	@PostMapping("/admin/approveVendor/{vendorID}")
+	@PostMapping("/admin/approvevendor/{vendorID}")
 	public ResponseEntity<UserDTO> approveVendor(
 			@ApiParam(value = "Vendor's Unique ID", required = true, allowMultiple = false, name = "vendorID") @PathVariable Integer vendorID)
 			throws PasswordEncryptionException, EntitySaveException, EntityNotFoundException {

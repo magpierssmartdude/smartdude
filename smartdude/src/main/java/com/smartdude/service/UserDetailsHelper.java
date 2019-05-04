@@ -23,7 +23,7 @@ public class UserDetailsHelper {
 	
 	public void addQManagerToUserTable(QueueManager queueManager) {
 		User user = userMapper.queueManagerToUser(queueManager);
-		List<Role> roles = new ArrayList();
+		List<Role> roles = new ArrayList<>();
 		Role role = new Role();
 		role.setRoleCode("QM");
 		roles.add(role);

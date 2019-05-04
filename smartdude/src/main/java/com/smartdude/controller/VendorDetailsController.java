@@ -37,20 +37,20 @@ public class VendorDetailsController {
 	private LocationDetailService locationDetailsService;
 
 	@ApiOperation(value = "To Save Vendor Details", response = Vendor.class, nickname = "Vendor SignUp")
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK", response = Vendor.class),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK", response = VendorDTO.class),
 			@ApiResponse(code = 500, message = "ENS-> Error While Saving Vendor Details", response = com.smartdude.entity.exception.Error.class) })
 	@PostMapping(value = "/smartdude/signup", consumes = "application/json", produces = "application/json")
-	public ResponseEntity<Vendor> vendorSignUp(
-			@ApiParam(value = "Vendor details like Vendor Code & Vendor Name", required = true, name = "VendorDTO") @RequestBody Vendor vendor)
+	public ResponseEntity<VendorDTO> vendorSignUp(
+			@ApiParam(value = "Vendor details like Vendor Code & Vendor Name", required = true, name = "vendor") @RequestBody Vendor vendor)
 			throws EntitySaveException {
-		Vendor savedVendor = vendorDetailsService.vendorSignUp(vendor);
+		VendorDTO savedVendor = vendorDetailsService.vendorSignUp(vendor);
 		return new ResponseEntity<>(savedVendor, HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "To Update Vendor Authenticating Details With Active Status Changed", response = Vendor.class, nickname = "Vendor Authentication Update")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK", response = Vendor.class),
-			@ApiResponse(code = 500, message = "ENS -> Error While Saving Vendor Details", response = com.smartdude.entity.exception.Error.class) })
-	@PutMapping("/admin/updateVendorStatus")
+			@ApiResponse(code = 500, message = "ENS -> Error While Updating Vendor Details", response = com.smartdude.entity.exception.Error.class) })
+	@PutMapping("/admin/updatevendorstatus")
 	public ResponseEntity<Vendor> activteStatus(
 			@ApiParam(value = "Vendor Details With Updated Active Status", required = true, name = "VendorDTO") @RequestBody VendorDTO vendorDTO)
 			throws EntitySaveException {
@@ -61,7 +61,7 @@ public class VendorDetailsController {
 	@ApiOperation(value = "To Get Vendor Details With Their Code", response = Vendor.class, nickname = "Vendor Detail")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK", response = Vendor.class),
 			@ApiResponse(code = 404, message = "ENF -> Vendor Details Not Found For the Given Vendor ID", response = com.smartdude.entity.exception.Error.class) })
-	@GetMapping("/admin/getVendor/{vendorId}")
+	@GetMapping("/admin/getvendor/{vendorId}")
 	public ResponseEntity<Vendor> getVendorsByCode(
 			@ApiParam(value = "Vendor's Unique Code", required = true, allowMultiple = false, name = "vendorId") @PathVariable Integer vendorId)
 			throws EntityNotFoundException {
@@ -69,40 +69,70 @@ public class VendorDetailsController {
 		return new ResponseEntity<>(vendor, HttpStatus.OK);
 	}
 
-	@ApiOperation(value = "To Save Vendor Location Details", response = Vendor.class, nickname = "Vendor Location Save")
+	@ApiOperation(value = "To Save Vendor Location Details", response = LocationDetailDTO.class, nickname = "Vendor Location Save")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK", response = LocationDetailDTO.class),
 			@ApiResponse(code = 500, message = "ENS-> Error While Saving Vendor Location Details", response = com.smartdude.entity.exception.Error.class) })
-	@PostMapping("/vendor/saveLocation")
-	public LocationDetailDTO saveLocation(@RequestBody LocationDetail locationDetail) throws EntitySaveException {
-		return locationDetailsService.save(locationDetail);
+	@PostMapping("/vendor/savelocation")
+	public ResponseEntity<LocationDetailDTO> saveLocation(
+			@ApiParam(value = "Location Details", required = true, name = "locationDetail") @RequestBody LocationDetail locationDetail)
+			throws EntitySaveException {
+		LocationDetailDTO locationDetailDTO = locationDetailsService.save(locationDetail);
+		return new ResponseEntity<>(locationDetailDTO, HttpStatus.OK);
 	}
-	
-	@PutMapping("/vendor/updateLocation/{locationID}")
-	public LocationDetailDTO updateLocation(@RequestBody LocationDetail locationDetail,@PathVariable("locationID") Integer locationID) throws EntitySaveException {
+
+	@ApiOperation(value = "To Update Vendor Location Details", response = LocationDetailDTO.class, nickname = "Vendor Location Update")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK", response = LocationDetailDTO.class),
+			@ApiResponse(code = 500, message = "ENS-> Error While Saving Vendor Location Details", response = com.smartdude.entity.exception.Error.class) })
+	@PutMapping("/vendor/updatelocation/{locationID}")
+	public ResponseEntity<LocationDetailDTO> updateLocation(
+			@ApiParam(value = "Location Details", required = true, name = "locationDetail") @RequestBody LocationDetail locationDetail,
+			@ApiParam(value = "Location's Unique Code", required = true, allowMultiple = false, name = "locationID") @PathVariable("locationID") Integer locationID)
+			throws EntitySaveException {
 		locationDetail.setLocationid(locationID);
-		return locationDetailsService.save(locationDetail);
+		LocationDetailDTO locationDetailDTO = locationDetailsService.save(locationDetail);
+		return new ResponseEntity<>(locationDetailDTO, HttpStatus.OK);
 	}
-	
+
+	@ApiOperation(value = "Get Location Details", response = LocationDetailDTO.class, nickname = "Get Locations")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK", response = LocationDetailDTO.class),
+			@ApiResponse(code = 404, message = "ENF-> Location Details Not Found For The Given Vendor ID", response = com.smartdude.entity.exception.Error.class) })
 	@GetMapping("/vendor/{vendorID}/locations")
-	public List<LocationDetail> findAllLocations(@PathVariable("vendorID") Integer vendorID) throws EntitySaveException {
-		return locationDetailsService.findAllLocations(vendorID);
+	public ResponseEntity<List<LocationDetailDTO>> findAllLocations(
+			@ApiParam(value = "Vendor's Unique Code", required = true, allowMultiple = false, name = "vendorID") @PathVariable("vendorID") Integer vendorID)
+			throws EntitySaveException, EntityNotFoundException {
+		List<LocationDetailDTO> locationDetailDTOList = locationDetailsService.findAllLocations(vendorID);
+		return new ResponseEntity<>(locationDetailDTOList, HttpStatus.OK);
 	}
-	
-	
+
+	@ApiOperation(value = "Get Location Detail", response = LocationDetailDTO.class, nickname = "Get Location")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK", response = LocationDetailDTO.class),
+			@ApiResponse(code = 404, message = "ENF-> Location Details Not Found For The Given Vendor & Location ID ID", response = com.smartdude.entity.exception.Error.class) })
 	@GetMapping("/vendor/{vendorID}/locations/{locationID}")
-	public LocationDetail findLocationByID(@PathVariable("vendorID") Integer vendorID,@PathVariable("locationID") Integer locationID) throws EntitySaveException {
-		return locationDetailsService.findLocationByLocationID(vendorID,locationID);
+	public ResponseEntity<LocationDetailDTO> findLocationByID(
+			@ApiParam(value = "Vendor's Unique Code", required = true, allowMultiple = false, name = "vendorID") @PathVariable("vendorID") Integer vendorID,
+			@ApiParam(value = "Locations's Unique Code", required = true, allowMultiple = false, name = "locationID") @PathVariable("locationID") Integer locationID)
+			throws EntityNotFoundException {
+		LocationDetailDTO locationDetailDTO = locationDetailsService.findLocationByLocationID(vendorID, locationID);
+		return new ResponseEntity<>(locationDetailDTO, HttpStatus.OK);
 	}
-	
-	
-	@DeleteMapping("/vendor/{vendorID}/deleteLocation/{locationID}")
-	public void deleteLocation(@PathVariable("locationID") Integer locationID,@PathVariable("vendorID")Integer vendorID) {
+
+	@ApiOperation(value = "Delete Location Detail", response = LocationDetailDTO.class, nickname = "Delete Location")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK") })
+	@DeleteMapping("/vendor/{vendorID}/deletelocation/{locationID}")
+	public void deleteLocation(
+			@ApiParam(value = "Location's Unique Code", required = true, allowMultiple = false, name = "locationID") @PathVariable("locationID") Integer locationID,
+			@ApiParam(value = "Vendor's Unique Code", required = true, allowMultiple = false, name = "vendorID") @PathVariable("vendorID") Integer vendorID)
+			throws Exception {
 		locationDetailsService.deleteById(locationID);
 	}
-	
-	@GetMapping("/admin/findAllVendors")
-	public List<Vendor> findAllUsers(){
-		return vendorDetailsService.findAllVendors();
+
+	@ApiOperation(value = "Get Vendor List", response = LocationDetailDTO.class, nickname = "Get Vendor")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK", response = VendorDTO.class),
+			@ApiResponse(code = 404, message = "ENF-> Vendor Details Not Found", response = com.smartdude.entity.exception.Error.class) })
+	@GetMapping("/admin/findallvendors")
+	public ResponseEntity<List<VendorDTO>> findAllUsers() throws EntityNotFoundException {
+		List<VendorDTO> vendorDTOList = vendorDetailsService.findAllVendors();
+		return new ResponseEntity<>(vendorDTOList, HttpStatus.OK);
 	}
-	
+
 }

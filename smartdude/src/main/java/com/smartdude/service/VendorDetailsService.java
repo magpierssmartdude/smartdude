@@ -7,11 +7,13 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import com.smartdude.dto.VendorDTO;
 import com.smartdude.entity.Vendor;
 import com.smartdude.entity.exception.EntityNotFoundException;
 import com.smartdude.entity.exception.EntitySaveException;
+import com.smartdude.mapper.VendorMapper;
 import com.smartdude.repository.VendorRepository;
 
 @Service
@@ -20,13 +22,11 @@ public class VendorDetailsService {
 	@Autowired
 	private VendorRepository vendoRepository;
 
-	/*
-	 * @Autowired private VendorMapper vendorMapper;
-	 */
+	@Autowired
+	private VendorMapper vendorMapper;
 
 	@Transactional
-	public Vendor vendorSignUp(Vendor vendor) throws EntitySaveException {
-	//	Vendor vendor = vendorMapper.vendorDTOToVendor(vendorDTO);
+	public VendorDTO vendorSignUp(Vendor vendor) throws EntitySaveException {
 		try {
 			String vendorFirstName  = vendor.getVendorname().substring(0,2);
 			String vendorCode = vendor.getVendorcode();
@@ -34,7 +34,9 @@ public class VendorDetailsService {
 			String password = vendorFirstName+vendorCode+phoneNum;
 			vendor.setPassword(password);
 			vendor.setCreatedTimeStamp(LocalDateTime.now());
-			return vendoRepository.save(vendor);
+			Vendor savedVendor =  vendoRepository.save(vendor);
+			VendorDTO vendorDTO = vendorMapper.vendorToVendorDTO(savedVendor);
+			return vendorDTO;
 		} catch (Exception e) {
 			throw new EntitySaveException("Error Occured While Creating The Vendor. Please Try Again.");
 		}
@@ -63,8 +65,12 @@ public class VendorDetailsService {
 		}
 	}
 
-	public List<Vendor> findAllVendors() {
-		// TODO Auto-generated method stub
-		return vendoRepository.findAll();
+	public List<VendorDTO> findAllVendors() throws EntityNotFoundException {
+		List<Vendor> vendorList = vendoRepository.findAll();
+		List<VendorDTO> vendorDTOList = vendorMapper.vendorListToVendorDTOList(vendorList);
+		if (CollectionUtils.isEmpty(vendorDTOList)) {
+			throw new EntityNotFoundException("Vendor Details Not Found");
+		}
+		return vendorDTOList;
 	}
 }
