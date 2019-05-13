@@ -14,12 +14,14 @@ import com.smartdude.entity.exception.EntitySaveException;
 import com.smartdude.entity.exception.PasswordEncryptionException;
 import com.smartdude.service.UserService;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
 @RestController
+@Api(value = "Admin Controller", tags = "Admin API", consumes = "application/json")
 public class AdminController {
 
 	@Autowired

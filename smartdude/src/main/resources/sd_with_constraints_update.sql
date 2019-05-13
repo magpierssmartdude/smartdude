@@ -61,11 +61,14 @@ CREATE TABLE `locationqmanagerassociation` (
   `activestatus` tinyint(1) NOT NULL DEFAULT '1',
   `qmanagerid` int(11) NOT NULL,
   `locationid` int(11) NOT NULL,
+  `vendorid` int(11) NOT NULL,
+  `vendorid` int(11) NOT NULL,
   `createdtimestamp` datetime NOT NULL,
   `updatedtimestamp` datetime DEFAULT NULL,
   PRIMARY KEY (`locqmanagerassociationid`),
   KEY `locid_idx` (`locationid`),
   KEY `qmanagerid_idx` (`qmanagerid`),
+  KEY `vendorid_idx` (`vendorid`),
   CONSTRAINT `locid` FOREIGN KEY (`locationid`) REFERENCES `locationdetail` (`locationid`),
   CONSTRAINT `qmanagerid` FOREIGN KEY (`qmanagerid`) REFERENCES `queuemanager` (`qmanagerid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

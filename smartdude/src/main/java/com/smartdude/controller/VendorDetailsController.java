@@ -22,6 +22,7 @@ import com.smartdude.entity.exception.EntitySaveException;
 import com.smartdude.service.LocationDetailService;
 import com.smartdude.service.VendorDetailsService;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
@@ -58,15 +59,15 @@ public class VendorDetailsController {
 		return new ResponseEntity<>(vendor, HttpStatus.OK);
 	}
 
-	@ApiOperation(value = "To Get Vendor Details With Their Code", response = Vendor.class, nickname = "Vendor Detail")
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK", response = Vendor.class),
+	@ApiOperation(value = "To Get Vendor Details With Their Code", response = VendorDTO.class, nickname = "Vendor Detail")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK", response = VendorDTO.class),
 			@ApiResponse(code = 404, message = "ENF -> Vendor Details Not Found For the Given Vendor ID", response = com.smartdude.entity.exception.Error.class) })
 	@GetMapping("/admin/getvendor/{vendorId}")
-	public ResponseEntity<Vendor> getVendorsByCode(
+	public ResponseEntity<VendorDTO> getVendorsByCode(
 			@ApiParam(value = "Vendor's Unique Code", required = true, allowMultiple = false, name = "vendorId") @PathVariable Integer vendorId)
 			throws EntityNotFoundException {
-		Vendor vendor = vendorDetailsService.findByVendorid(vendorId);
-		return new ResponseEntity<>(vendor, HttpStatus.OK);
+		VendorDTO vendorDTO = vendorDetailsService.findByVendorid(vendorId);
+		return new ResponseEntity<>(vendorDTO, HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "To Save Vendor Location Details", response = LocationDetailDTO.class, nickname = "Vendor Location Save")

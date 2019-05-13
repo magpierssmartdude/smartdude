@@ -56,10 +56,12 @@ public class VendorDetailsService {
 		}
 	}
 
-	public Vendor findByVendorid(Integer vendorId) throws EntityNotFoundException {
+	public VendorDTO findByVendorid(Integer vendorId) throws EntityNotFoundException {
 		Optional<Vendor> vendor = vendoRepository.findByVendorid(vendorId);
 		if (vendor.isPresent()) {
-			return vendor.get();
+			Vendor vendorDetails = vendor.get();
+			VendorDTO vendorDTO = vendorMapper.vendorToVendorDTO(vendorDetails);
+			return vendorDTO;
 		} else {
 			throw new EntityNotFoundException("Vendor Details Not Found For The Given Vendor ID " + vendorId);
 		}

@@ -27,12 +27,14 @@ import com.smartdude.entity.exception.EntitySaveException;
 import com.smartdude.entity.exception.ParameterNotFound;
 import com.smartdude.service.QueuemanagerService;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
 @RestController
+@Api(value = "Queue Manager Controller", tags = "Queue Manager API", consumes = "application/json")
 public class QueueManagerController {
 
 	@Autowired

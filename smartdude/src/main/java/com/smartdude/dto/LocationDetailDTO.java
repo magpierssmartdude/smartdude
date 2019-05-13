@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 public class LocationDetailDTO {
 	@ApiModelProperty(notes = "Vendor Unique Location ID", required = true)
-	private int locationId;
+	private int locationid;
 	
 	@ApiModelProperty(notes = "Vendor Location State Name", required = true)
 	private String state;
@@ -30,5 +30,5 @@ public class LocationDetailDTO {
 	private String block;
 
 	@ApiModelProperty(notes = "Vendor Unique ID", required = true)
-	private Integer vendorId;
+	private Integer vendorid;
 }
