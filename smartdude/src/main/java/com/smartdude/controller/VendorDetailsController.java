@@ -29,6 +29,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
 @RestController
+@Api(value = "Vendor Details Controller", tags = "Vendor Details API", consumes = "application/json")
 public class VendorDetailsController {
 
 	@Autowired
