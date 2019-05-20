@@ -43,21 +43,21 @@ public class VendorDetailsController {
 			@ApiResponse(code = 500, message = "ENS-> Error While Saving Vendor Details", response = com.smartdude.entity.exception.Error.class) })
 	@PostMapping(value = "/smartdude/signup", consumes = "application/json", produces = "application/json")
 	public ResponseEntity<VendorDTO> vendorSignUp(
-			@ApiParam(value = "Vendor details like Vendor Code & Vendor Name", required = true, name = "vendor") @RequestBody Vendor vendor)
+			@ApiParam(value = "Vendor details like Vendor Code & Vendor Name. All fields are required", required = true, name = "vendor") @RequestBody Vendor vendor)
 			throws EntitySaveException {
 		VendorDTO savedVendor = vendorDetailsService.vendorSignUp(vendor);
 		return new ResponseEntity<>(savedVendor, HttpStatus.OK);
 	}
 
-	@ApiOperation(value = "To Update Vendor Authenticating Details With Active Status Changed", response = Vendor.class, nickname = "Vendor Authentication Update")
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK", response = Vendor.class),
+	@ApiOperation(value = "To Update Vendor Authenticating Details With Active Status Changed", response = VendorDTO.class, nickname = "Vendor Authentication Update")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK", response = VendorDTO.class),
 			@ApiResponse(code = 500, message = "ENS -> Error While Updating Vendor Details", response = com.smartdude.entity.exception.Error.class) })
 	@PutMapping("/admin/updatevendorstatus")
-	public ResponseEntity<Vendor> activteStatus(
-			@ApiParam(value = "Vendor Details With Updated Active Status", required = true, name = "VendorDTO") @RequestBody VendorDTO vendorDTO)
+	public ResponseEntity<VendorDTO> activteStatus(
+			@ApiParam(value = "Vendor Id Is Mandatory To Update The Status", required = true, name = "vendor") @RequestBody Vendor vendor)
 			throws EntitySaveException {
-		Vendor vendor = vendorDetailsService.updateActiveStatus(vendorDTO);
-		return new ResponseEntity<>(vendor, HttpStatus.OK);
+		VendorDTO vendorDTO = vendorDetailsService.updateActiveStatus(vendor);
+		return new ResponseEntity<>(vendorDTO, HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "To Get Vendor Details With Their Code", response = VendorDTO.class, nickname = "Vendor Detail")
@@ -76,7 +76,7 @@ public class VendorDetailsController {
 			@ApiResponse(code = 500, message = "ENS-> Error While Saving Vendor Location Details", response = com.smartdude.entity.exception.Error.class) })
 	@PostMapping("/vendor/savelocation")
 	public ResponseEntity<LocationDetailDTO> saveLocation(
-			@ApiParam(value = "Location Details", required = true, name = "locationDetail") @RequestBody LocationDetail locationDetail)
+			@ApiParam(value = "All Location Details Fields Are Mandatory To Save The Details. In Vendor Details , Vendor ID Alone Is Sufficient To Save Location Details", required = true, name = "locationDetail") @RequestBody LocationDetail locationDetail)
 			throws EntitySaveException {
 		LocationDetailDTO locationDetailDTO = locationDetailsService.save(locationDetail);
 		return new ResponseEntity<>(locationDetailDTO, HttpStatus.OK);
@@ -87,7 +87,7 @@ public class VendorDetailsController {
 			@ApiResponse(code = 500, message = "ENS-> Error While Saving Vendor Location Details", response = com.smartdude.entity.exception.Error.class) })
 	@PutMapping("/vendor/updatelocation/{locationID}")
 	public ResponseEntity<LocationDetailDTO> updateLocation(
-			@ApiParam(value = "Location Details", required = true, name = "locationDetail") @RequestBody LocationDetail locationDetail,
+			@ApiParam(value = "All Location Details Need To Be Changed Has To Fill. In Vendor Details , Vendor ID Alone Is Sufficient To Save Location Details", required = true, name = "locationDetail") @RequestBody LocationDetail locationDetail,
 			@ApiParam(value = "Location's Unique Code", required = true, allowMultiple = false, name = "locationID") @PathVariable("locationID") Integer locationID)
 			throws EntitySaveException {
 		locationDetail.setLocationid(locationID);

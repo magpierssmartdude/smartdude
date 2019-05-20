@@ -36,7 +36,7 @@ public class UserController {
 			@ApiResponse(code = 500, message = "ENS -> Error While Saving User Details, NO_PASS_ENCR -> Error During Password Encryption", response = com.smartdude.entity.exception.Error.class) })
 	@PostMapping(value = "/saveuser", consumes = "application/json", produces = "application/json")
 	public ResponseEntity<UserDTO> saveUser(
-			@ApiParam(value = "User Details", required = true, name = "user") @RequestBody User user)
+			@ApiParam(value = "User Details With User Name, Roles, Client Code, Password as mandotary.", required = true, name = "user") @RequestBody User user)
 			throws PasswordEncryptionException, EntitySaveException {
 		UserDTO savedUser = userService.saveUser(user);
 		return new ResponseEntity<>(savedUser, HttpStatus.OK);

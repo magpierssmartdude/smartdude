@@ -28,13 +28,13 @@ public class VendorDetailsService {
 	@Transactional
 	public VendorDTO vendorSignUp(Vendor vendor) throws EntitySaveException {
 		try {
-			String vendorFirstName  = vendor.getVendorname().substring(0,2);
+			String vendorFirstName = vendor.getVendorname().substring(0, 2);
 			String vendorCode = vendor.getVendorcode();
-			String phoneNum = vendor.getPhonenumber().substring(0,4);
-			String password = vendorFirstName+vendorCode+phoneNum;
+			String phoneNum = vendor.getPhonenumber().substring(0, 4);
+			String password = vendorFirstName + vendorCode + phoneNum;
 			vendor.setPassword(password);
 			vendor.setCreatedTimeStamp(LocalDateTime.now());
-			Vendor savedVendor =  vendoRepository.save(vendor);
+			Vendor savedVendor = vendoRepository.save(vendor);
 			VendorDTO vendorDTO = vendorMapper.vendorToVendorDTO(savedVendor);
 			return vendorDTO;
 		} catch (Exception e) {
@@ -43,14 +43,19 @@ public class VendorDetailsService {
 	}
 
 	@Transactional
-	public Vendor updateActiveStatus(VendorDTO vendorDTO) throws EntitySaveException {
+	public VendorDTO updateActiveStatus(Vendor vendor) throws EntitySaveException {
 		try {
-			/*
-			 * Vendor vendor = vendorMapper.vendorDTOToVendor(vendorDTO);
-			 * vendor.setAuthendicatedtime(LocalDateTime.now()); return
-			 * vendoRepository.save(vendor);
-			 */
-			return null;
+			Optional<Vendor> vendorObject = vendoRepository.findByVendorid(vendor.getVendorid());
+			if (vendorObject.isPresent()) {
+				Vendor updatedVendor = vendorObject.get();
+				updatedVendor.setAuthendicatedtime(LocalDateTime.now());
+				updatedVendor.setStatus(true);
+				Vendor savedObject = vendoRepository.save(updatedVendor);
+				VendorDTO vendorDTO = vendorMapper.vendorToVendorDTO(savedObject);
+				return vendorDTO;
+			} else {
+				throw new EntityNotFoundException("Vendor Details Not Found For The Provided Vendor ID " + vendor.getVendorid());
+			}
 		} catch (Exception e) {
 			throw new EntitySaveException("Error Occured While Authenticating The Vendor. Please Try Again.");
 		}
