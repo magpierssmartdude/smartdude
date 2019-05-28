@@ -30,19 +30,19 @@ public class Vendor implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@ApiModelProperty(notes = "Vendor Unique ID", required = true)
+	@ApiModelProperty(notes = "Vendor Unique ID", required = true, example = "1")
 	@Column(name = "vendorid")
 	private Integer vendorid;
 
-	@ApiModelProperty(notes = "Vendor Code", required = true)
+	@ApiModelProperty(notes = "Vendor Code", required = true, example = "ISS")
 	@Column(name = "vendorcode")
 	private String vendorcode;
 
-	@ApiModelProperty(notes = "Vendor Name")
+	@ApiModelProperty(notes = "Vendor Name", example = "Anamika")
 	@Column(name = "vendorname")
 	private String vendorname;
 	
-	@ApiModelProperty(notes = "Vendor Organizantion Type")
+	@ApiModelProperty(notes = "Vendor Organizantion Type", example = "Cafeteria")
 	@Column(name = "organizationtype")
 	private String organizationtype;
 	
@@ -50,7 +50,7 @@ public class Vendor implements Serializable {
 	@Column(name = "authendicatedtime")
 	private LocalDateTime authendicatedtime;
 
-	@ApiModelProperty(notes = "Vendor Organizantion Name")
+	@ApiModelProperty(notes = "Vendor Organizantion Name", example = "ISS Food Chain")
 	@Column(name = "organizationname")
 	private String organizationname;
 	
@@ -58,7 +58,7 @@ public class Vendor implements Serializable {
 	@Column(name = "password")
 	private String password;
 	
-	@ApiModelProperty(notes = "Vendor Hand Phone")
+	@ApiModelProperty(notes = "Vendor Hand Phone", example = "9999999999")
 	@Column(name = "phonenumber")
 	private String phonenumber;
 	
@@ -66,7 +66,7 @@ public class Vendor implements Serializable {
 	@Column(name = "createdtimestamp")
 	private LocalDateTime createdTimeStamp;
 	
-	@ApiModelProperty(notes = "Status Of The Vendor")
+	@ApiModelProperty(notes = "Status Of The Vendor", example = "0 or 1")
 	@Column(name = "status")
 	private Boolean status;
 	

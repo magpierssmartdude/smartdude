@@ -2,8 +2,6 @@ package com.smartdude.dto;
 
 import java.time.LocalDateTime;
 
-import com.smartdude.entity.Vendor;
-
 import io.swagger.annotations.ApiModelProperty;
 
 public class QueueManagerDTO {
@@ -29,7 +27,7 @@ public class QueueManagerDTO {
 	private LocalDateTime updatedtimestamp;
 	
 	@ApiModelProperty(notes = "Vendor Unique ID", required = true)
-	private Vendor vendor;
+	private Integer vendorid;
 	
 	@ApiModelProperty(notes = "Vendor Active STatus", required = true)
 	private Boolean activestatus;

@@ -43,7 +43,7 @@ public class VendorDetailsController {
 			@ApiResponse(code = 500, message = "ENS-> Error While Saving Vendor Details", response = com.smartdude.entity.exception.Error.class) })
 	@PostMapping(value = "/smartdude/signup", consumes = "application/json", produces = "application/json")
 	public ResponseEntity<VendorDTO> vendorSignUp(
-			@ApiParam(value = "Vendor details like Vendor Code & Vendor Name. All fields are required", required = true, name = "vendor") @RequestBody Vendor vendor)
+			@ApiParam(value = "Vendor details like Vendor Code, Vendor Name, Organization Type, Organization Name, Phone Number. All these fields are required to signup", required = true, name = "vendor") @RequestBody Vendor vendor)
 			throws EntitySaveException {
 		VendorDTO savedVendor = vendorDetailsService.vendorSignUp(vendor);
 		return new ResponseEntity<>(savedVendor, HttpStatus.OK);
@@ -76,7 +76,7 @@ public class VendorDetailsController {
 			@ApiResponse(code = 500, message = "ENS-> Error While Saving Vendor Location Details", response = com.smartdude.entity.exception.Error.class) })
 	@PostMapping("/vendor/savelocation")
 	public ResponseEntity<LocationDetailDTO> saveLocation(
-			@ApiParam(value = "All Location Details Fields Are Mandatory To Save The Details. In Vendor Details , Vendor ID Alone Is Sufficient To Save Location Details", required = true, name = "locationDetail") @RequestBody LocationDetail locationDetail)
+			@ApiParam(value = "All Location Details (State, Area, City, Landmark, Building, Floor, Block) Fields Are Mandatory To Save The Details. In Vendor Details , Vendor ID Alone Is Sufficient To Save Location Details", required = true, name = "locationDetail") @RequestBody LocationDetail locationDetail)
 			throws EntitySaveException {
 		LocationDetailDTO locationDetailDTO = locationDetailsService.save(locationDetail);
 		return new ResponseEntity<>(locationDetailDTO, HttpStatus.OK);
@@ -87,7 +87,7 @@ public class VendorDetailsController {
 			@ApiResponse(code = 500, message = "ENS-> Error While Saving Vendor Location Details", response = com.smartdude.entity.exception.Error.class) })
 	@PutMapping("/vendor/updatelocation/{locationID}")
 	public ResponseEntity<LocationDetailDTO> updateLocation(
-			@ApiParam(value = "All Location Details Need To Be Changed Has To Fill. In Vendor Details , Vendor ID Alone Is Sufficient To Save Location Details", required = true, name = "locationDetail") @RequestBody LocationDetail locationDetail,
+			@ApiParam(value = "All Location Details (State, Area, City, Landmark, Building, Floor, Block) amoung thesefield need To Be Changed Has To Fill. In Vendor Details , Vendor ID Alone Is Sufficient To Save Location Details", required = true, name = "locationDetail") @RequestBody LocationDetail locationDetail,
 			@ApiParam(value = "Location's Unique Code", required = true, allowMultiple = false, name = "locationID") @PathVariable("locationID") Integer locationID)
 			throws EntitySaveException {
 		locationDetail.setLocationid(locationID);
