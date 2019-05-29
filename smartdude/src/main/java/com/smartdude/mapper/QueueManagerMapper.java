@@ -12,7 +12,7 @@ import com.smartdude.entity.QueueManager;
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface QueueManagerMapper {
 
-	//@Mapping(target="vendorid",source="vendor.vendorid")
+	@Mapping(target="vendorid",source="vendor.vendorid")
 	public QueueManagerDTO queueManagerToQueueManagerDTO(QueueManager queueManager);
 
 	public List<QueueManagerDTO> queueManagerListToQueueManagerDtoList(List<QueueManager> managerList);

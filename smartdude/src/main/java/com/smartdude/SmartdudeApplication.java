@@ -10,4 +10,6 @@ public class SmartdudeApplication {
 		SpringApplication.run(SmartdudeApplication.class, args);
 	}
 
+	
+	
 }

@@ -73,7 +73,7 @@ public class QueuemanagerService {
 			QueueManagerDTO queueManagerDTO = queueManagerMapper.queueManagerToQueueManagerDTO(savedQueueManager);
 			return queueManagerDTO;
 		} catch (Exception e) {
-			throw new EntitySaveException("Error Occured While Creating The Vendor. Please Try Again.");
+			throw new EntitySaveException("Error Occured While Creating The Vendor. Please Try Again."+e);
 		}
 	}
 
