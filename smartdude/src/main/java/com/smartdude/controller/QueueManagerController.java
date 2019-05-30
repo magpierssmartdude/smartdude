@@ -47,7 +47,7 @@ public class QueueManagerController {
 			@ApiResponse(code = 500, message = "ENS-> Error While Saving Queue Details", response = com.smartdude.entity.exception.Error.class) })
 	@PostMapping("/vendor/qmanager")
 	public ResponseEntity<QueueManagerDTO> saveQManager(
-			@ApiParam(value = "Queue Manager Details", required = true, name = "queueManager") @RequestBody QueueManager queueManager)
+			@ApiParam(value = "Queue Manager Details like Queue Manager Name, Queue Manager Mobile Number, Queue Manager EmailId , Vendor Status & in vendor details vendor id alone is sufficient", required = true, name = "queueManager") @RequestBody QueueManager queueManager)
 			throws EntitySaveException {
 		QueueManagerDTO queueManagerDTO = queuemanagerService.save(queueManager);
 		return new ResponseEntity<>(queueManagerDTO, HttpStatus.OK);
@@ -59,7 +59,7 @@ public class QueueManagerController {
 			@ApiResponse(code = 400, message = "PNF-> Invalid Parameter Given For Updating Queue Manager Details", response = com.smartdude.entity.exception.Error.class) })
 	@PutMapping("/vendor/qmanager/{qmanagerID}")
 	public ResponseEntity<QueueManagerDTO> updateQManager(
-			@ApiParam(value = "Queue Manager Details", required = true, name = "queueManager") @RequestBody QueueManager queueManager,
+			@ApiParam(value = "Queue Manager Details Which needs to be updated", required = true, name = "queueManager") @RequestBody QueueManager queueManager,
 			@ApiParam(value = "Queue Manager's Unique Code", required = true, allowMultiple = false, name = "qmanagerID") @PathVariable("qmanagerID") Integer qManagerID)
 			throws ParameterNotFound, EntitySaveException {
 		QueueManagerDTO queueManagerDTO = queuemanagerService.update(queueManager, qManagerID);
