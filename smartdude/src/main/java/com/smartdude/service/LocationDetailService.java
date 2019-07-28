@@ -2,6 +2,7 @@ package com.smartdude.service;
 
 import java.util.List;
 
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,8 +29,11 @@ public class LocationDetailService {
 			LocationDetailDTO locationDetailDTO = locationDetailMapper
 					.locationDetailToLocationDetailDTO(savedLocationDetail);
 			return locationDetailDTO;
-		} catch (Exception e) {
-			throw new EntitySaveException("Error Occured While Saving The Vendor Location Details. Please Try Again.");
+		}catch(ConstraintViolationException e) {
+			throw new EntitySaveException("Error Occured While Saving The Vendor Location Details. Constraint violation exception"+ e);
+		}
+		catch (Exception e) {
+			throw new EntitySaveException("Error Occured While Saving The Vendor Location Details. Please Try Again."+ e);
 		}
 	}
 
