@@ -51,8 +51,14 @@ public class User implements Serializable {
 
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "userid", nullable = false)
+	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 	@ApiModelProperty(notes = "List of roles that an user decides to play here", required = true)
 	private List<Role> roles;
+	
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinColumn(name = "orderid", nullable = false)
+	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+	private List<Order> order;
 	
 	@OneToOne(fetch = FetchType.LAZY)
 	@ApiModelProperty(notes = "Vendor Unique ID", required = true)
@@ -74,5 +80,6 @@ public class User implements Serializable {
 		this.roles = user.getRoles();
 		this.qmanager = user.getQmanager();
 		this.vendor = user.getVendor();
+		this.order = user.getOrder();
 	}
 }

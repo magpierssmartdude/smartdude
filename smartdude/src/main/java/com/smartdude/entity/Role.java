@@ -28,7 +28,7 @@ public class Role implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="role_id")
+	@Column(name="roleid")
 	@ApiModelProperty(notes = "Unique Role ID", required = true)
 	private Integer roleId;
 	
