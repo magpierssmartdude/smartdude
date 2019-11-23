@@ -33,7 +33,7 @@ public class Queue implements Serializable{
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@ApiModelProperty(notes = "Unique Queue ID", required = true)
-	@Column(name = "qmanagerid")
+	@Column(name = "queueid")
 	private Integer queueid;
 	
 	@ApiModelProperty(notes = "Queue Name", required = true)

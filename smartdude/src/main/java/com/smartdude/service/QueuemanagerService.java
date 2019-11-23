@@ -211,17 +211,7 @@ public class QueuemanagerService {
 	}
 
 	public LocationQueueManagerAssociationDTO findByVendorID(Integer vendorID) throws EntityNotFoundException {
-		Optional<LocationQueueManagerAssociation> locationQueueManagerAssociation = locationQueueManagerAssociationRepository
-				.findByVendorVendorid(vendorID);
-		if (locationQueueManagerAssociation.isPresent()) {
-			LocationQueueManagerAssociationDTO locationQueueManagerAssociationDTO = locationQueueManagerAssociationMapper
-					.locationQueueManagerAssociationtoLocationQueueManagerAssociationDTO(
-							locationQueueManagerAssociation.get());
-			return locationQueueManagerAssociationDTO;
-		} else {
-			throw new EntityNotFoundException(
-					"Location Queue Manager Association Not Found For The Provided Vendor ID " + vendorID);
-		}
+	return null;
 	}
 
 	@Transactional
