@@ -49,7 +49,7 @@ public class UserService {
 			user.setPassword(password);
 		} catch (Exception e) {
 			log.info("Error Occured", e.getMessage());
-			throw new PasswordEncryptionException("Password Encryption Is Unsuccessful");
+			throw new PasswordEncryptionException("Password Encryption Is Unsuccessful " + e);
 		}
 		try {
 			User savedUser = userRepository.save(user);
@@ -57,7 +57,7 @@ public class UserService {
 			return userDTO;
 		} catch (Exception e) {
 			log.info("Error Occured", e.getMessage());
-			throw new EntitySaveException("Error Occured While Creating The User. Please Try Again.");
+			throw new EntitySaveException("Error Occured While Creating The User. Please Try Again. " + e);
 		}
 	}
 
@@ -105,7 +105,7 @@ public class UserService {
 			return user;
 		} catch (Exception e) {
 			log.info("Error Occured", e.getMessage());
-			throw new EntitySaveException("Error Occured While Saving Vendor. Please Try Again.");
+			throw new EntitySaveException("Error Occured While Saving Vendor. Please Try Again." + e);
 		}
 	}
 

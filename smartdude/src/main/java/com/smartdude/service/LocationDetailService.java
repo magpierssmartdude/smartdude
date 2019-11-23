@@ -29,7 +29,7 @@ public class LocationDetailService {
 			LocationDetailDTO locationDetailDTO = locationDetailMapper
 					.locationDetailToLocationDetailDTO(savedLocationDetail);
 			return locationDetailDTO;
-		}catch(ConstraintViolationException e) {
+		} catch(ConstraintViolationException e) {
 			throw new EntitySaveException("Error Occured While Saving The Vendor Location Details. Constraint violation exception"+ e);
 		}
 		catch (Exception e) {
@@ -42,7 +42,7 @@ public class LocationDetailService {
 		try {
 		locationRepository.deleteById(locationID);
 		} catch (Exception e) {
-			throw new Exception("Error Occured While Deleting Location Details");
+			throw new Exception("Error Occured While Deleting Location Details" + e);
 		}
 	}
 
@@ -53,7 +53,7 @@ public class LocationDetailService {
 					.locationDetailListToLocationDetailDTOList(locationDetailList);
 			return locationDetailDTOList;
 		} else {
-			throw new EntityNotFoundException("Location Details Not Found For The Provided Vendor ID " + vendorID);
+			throw new EntityNotFoundException("Location Details Not Found For The Provided Vendor ID " + vendorID );
 		}
 	}
 

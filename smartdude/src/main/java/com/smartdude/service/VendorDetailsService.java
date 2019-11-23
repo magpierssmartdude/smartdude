@@ -38,7 +38,7 @@ public class VendorDetailsService {
 			VendorDTO vendorDTO = vendorMapper.vendorToVendorDTO(savedVendor);
 			return vendorDTO;
 		} catch (Exception e) {
-			throw new EntitySaveException("Error Occured While Creating The Vendor. Please Try Again.");
+			throw new EntitySaveException("Error Occured While Creating The Vendor. Please Try Again." + e);
 		}
 	}
 
@@ -57,7 +57,7 @@ public class VendorDetailsService {
 				throw new EntityNotFoundException("Vendor Details Not Found For The Provided Vendor ID " + vendor.getVendorid());
 			}
 		} catch (Exception e) {
-			throw new EntitySaveException("Error Occured While Authenticating The Vendor. Please Try Again.");
+			throw new EntitySaveException("Error Occured While Authenticating The Vendor. Please Try Again." + e);
 		}
 	}
 

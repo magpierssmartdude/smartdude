@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import com.smartdude.entity.QueueManager;
 import com.smartdude.entity.Role;
 import com.smartdude.entity.User;
+import com.smartdude.entity.exception.EntitySaveException;
 import com.smartdude.mapper.UserMapper;
 import com.smartdude.repository.UserRepository;
 
@@ -21,7 +22,8 @@ public class UserDetailsHelper {
 	@Autowired
 	private UserRepository userRepository;
 	
-	public void addQManagerToUserTable(QueueManager queueManager) {
+	public void addQManagerToUserTable(QueueManager queueManager) throws EntitySaveException {
+		try {
 		User user = userMapper.queueManagerToUser(queueManager);
 		List<Role> roles = new ArrayList<>();
 		Role role = new Role();
@@ -29,7 +31,9 @@ public class UserDetailsHelper {
 		roles.add(role);
 		user.setRoles(roles);
 		userRepository.save(user);
+	} catch (Exception e) {
+		throw new EntitySaveException("Error Occured While adding The queue manager Details. Please Try Again."+ e);
 	}
 	
-	
+	}
 }

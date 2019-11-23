@@ -90,13 +90,13 @@ public class QueuemanagerService {
 							.queueManagerToQueueManagerDTO(savedQueueManager);
 					return queueManagerDTO;
 				} else {
-					throw new EntityNotFoundException("Queue Manager Details Not Found For The Given Queue Manager ID");
+					throw new EntityNotFoundException("Queue Manager Details Not Found For The Given Queue Manager ID " + qManagerID);
 				}
 			} catch (Exception e) {
-				throw new EntitySaveException("Error Occured While Updating The Queue Manager. Please Try Again.");
+				throw new EntitySaveException("Error Occured While Updating The Queue Manager. Please Try Again. " + e);
 			}
 		} else {
-			throw new ParameterNotFound("Please Provide All The Required Parameters To Proceed The Request");
+			throw new ParameterNotFound("Please Provide All The Required Parameters To Proceed The Request ");
 		}
 	}
 
@@ -116,7 +116,7 @@ public class QueuemanagerService {
 			}
 		} catch (Exception e) {
 			throw new EntitySaveException(
-					"Error Occured While Saving Location Queue Manager Associaton Details. Please Try Again.");
+					"Error Occured While Saving Location Queue Manager Associaton Details. Please Try Again." + e);
 		}
 	}
 
@@ -128,7 +128,7 @@ public class QueuemanagerService {
 			QueueDTO queueDTO = queueMapper.queueToQueueDTO(savedQueue);
 			return queueDTO;
 		} catch (Exception e) {
-			throw new EntitySaveException("Error Occured While Saving Queue Details . Please Try After Some Time");
+			throw new EntitySaveException("Error Occured While Saving Queue Details . Please Try After Some Time " + e);
 		}
 	}
 
@@ -140,7 +140,7 @@ public class QueuemanagerService {
 			return serviceDTO;
 		} catch (Exception e) {
 			log.info("Exception occured due to " + e.getMessage());
-			throw new EntitySaveException("Error Occured While Saving Service Details. Please Try Again.");
+			throw new EntitySaveException("Error Occured While Saving Service Details. Please Try Again." + e);
 		}
 	}
 
@@ -187,7 +187,7 @@ public class QueuemanagerService {
 				return dto;
 			} catch (Exception e) {
 				throw new EntitySaveException(
-						"Error Occured While Updating Location Queue Manager Association Details. Please Try Again");
+						"Error Occured While Updating Location Queue Manager Association Details. Please Try Again" + e);
 			}
 		} else {
 			throw new EntityNotFoundException(
@@ -237,7 +237,7 @@ public class QueuemanagerService {
 					QueueDTO queueDTO = queueMapper.queueToQueueDTO(updatedQueue);
 					return queueDTO;
 				} catch (Exception e) {
-					throw new EntitySaveException("Error Occured While Updating Queue Details. Please Try Again");
+					throw new EntitySaveException("Error Occured While Updating Queue Details. Please Try Again" + e);
 				}
 			} else {
 				throw new EntityNotFoundException("Queue Details Not Found For The Provided Queue ID " + queueid);
@@ -281,7 +281,7 @@ public class QueuemanagerService {
 				ServiceDTO serviceDTO = serviceMapper.serviceToServiceDTO(savedService);
 				return serviceDTO;
 			} catch (Exception e) {
-				throw new EntitySaveException("Error Occured While Updating Service Details. Please Try Again");
+				throw new EntitySaveException("Error Occured While Updating Service Details. Please Try Again" + e);
 			}
 		} else {
 			throw new EntityNotFoundException("Service Details Not Found For The Provided ID " + serviceid);
